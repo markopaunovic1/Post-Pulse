@@ -22,6 +22,15 @@
 		AFCD74FE2B86107C000DE6A8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AFCD74FD2B86107C000DE6A8 /* FirebaseFirestore */; };
 		AFCD75002B86107C000DE6A8 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = AFCD74FF2B86107C000DE6A8 /* FirebaseFirestoreSwift */; };
 		AFCD75022B86107C000DE6A8 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AFCD75012B86107C000DE6A8 /* FirebaseStorage */; };
+		AFCD75162B8758C0000DE6A8 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD75152B8758C0000DE6A8 /* SearchBarView.swift */; };
+		AFCD75172B8758C0000DE6A8 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD75152B8758C0000DE6A8 /* SearchBarView.swift */; };
+		AFCD75182B8758C0000DE6A8 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD75152B8758C0000DE6A8 /* SearchBarView.swift */; };
+		AFCD751A2B8770DF000DE6A8 /* SearchBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD75192B8770DF000DE6A8 /* SearchBarViewModel.swift */; };
+		AFCD751B2B8770DF000DE6A8 /* SearchBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD75192B8770DF000DE6A8 /* SearchBarViewModel.swift */; };
+		AFCD751C2B8770DF000DE6A8 /* SearchBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD75192B8770DF000DE6A8 /* SearchBarViewModel.swift */; };
+		AFCD751E2B87AC57000DE6A8 /* MainPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD751D2B87AC57000DE6A8 /* MainPageView.swift */; };
+		AFCD751F2B87AC57000DE6A8 /* MainPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD751D2B87AC57000DE6A8 /* MainPageView.swift */; };
+		AFCD75202B87AC57000DE6A8 /* MainPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD751D2B87AC57000DE6A8 /* MainPageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +62,9 @@
 		AFCD74E52B860BF7000DE6A8 /* Post_PulseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post_PulseUITests.swift; sourceTree = "<group>"; };
 		AFCD74E72B860BF7000DE6A8 /* Post_PulseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post_PulseUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		AFCD74F42B860F60000DE6A8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AFCD75152B8758C0000DE6A8 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		AFCD75192B8770DF000DE6A8 /* SearchBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewModel.swift; sourceTree = "<group>"; };
+		AFCD751D2B87AC57000DE6A8 /* MainPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,8 +120,12 @@
 		AFCD74C92B860BF4000DE6A8 /* Post-Pulse */ = {
 			isa = PBXGroup;
 			children = (
-				AFCD74CA2B860BF4000DE6A8 /* Post_PulseApp.swift */,
+				AFCD751D2B87AC57000DE6A8 /* MainPageView.swift */,
+				AFCD75212B87BD86000DE6A8 /* MainPage */,
+				AFCD75032B874E0F000DE6A8 /* Features */,
+				AFCD750C2B87528D000DE6A8 /* Images */,
 				AFCD74CC2B860BF4000DE6A8 /* ContentView.swift */,
+				AFCD74CA2B860BF4000DE6A8 /* Post_PulseApp.swift */,
 				AFCD74CE2B860BF7000DE6A8 /* Assets.xcassets */,
 				AFCD74F42B860F60000DE6A8 /* GoogleService-Info.plist */,
 				AFCD74D02B860BF7000DE6A8 /* Preview Content */,
@@ -140,6 +156,53 @@
 				AFCD74E72B860BF7000DE6A8 /* Post_PulseUITestsLaunchTests.swift */,
 			);
 			path = "Post-PulseUITests";
+			sourceTree = "<group>";
+		};
+		AFCD75032B874E0F000DE6A8 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		AFCD750C2B87528D000DE6A8 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		AFCD750F2B875538000DE6A8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AFCD75212B87BD86000DE6A8 /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				AFCD750F2B875538000DE6A8 /* Views */,
+				AFCD75232B87BDA7000DE6A8 /* Model */,
+				AFCD75222B87BD9C000DE6A8 /* ViewModel */,
+			);
+			path = MainPage;
+			sourceTree = "<group>";
+		};
+		AFCD75222B87BD9C000DE6A8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				AFCD75192B8770DF000DE6A8 /* SearchBarViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		AFCD75232B87BDA7000DE6A8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AFCD75152B8758C0000DE6A8 /* SearchBarView.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,6 +350,9 @@
 			files = (
 				AFCD74CD2B860BF4000DE6A8 /* ContentView.swift in Sources */,
 				AFCD74CB2B860BF4000DE6A8 /* Post_PulseApp.swift in Sources */,
+				AFCD751A2B8770DF000DE6A8 /* SearchBarViewModel.swift in Sources */,
+				AFCD75162B8758C0000DE6A8 /* SearchBarView.swift in Sources */,
+				AFCD751E2B87AC57000DE6A8 /* MainPageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +360,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFCD751B2B8770DF000DE6A8 /* SearchBarViewModel.swift in Sources */,
+				AFCD75172B8758C0000DE6A8 /* SearchBarView.swift in Sources */,
+				AFCD751F2B87AC57000DE6A8 /* MainPageView.swift in Sources */,
 				AFCD74DC2B860BF7000DE6A8 /* Post_PulseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,6 +373,9 @@
 			files = (
 				AFCD74E82B860BF7000DE6A8 /* Post_PulseUITestsLaunchTests.swift in Sources */,
 				AFCD74E62B860BF7000DE6A8 /* Post_PulseUITests.swift in Sources */,
+				AFCD751C2B8770DF000DE6A8 /* SearchBarViewModel.swift in Sources */,
+				AFCD75182B8758C0000DE6A8 /* SearchBarView.swift in Sources */,
+				AFCD75202B87AC57000DE6A8 /* MainPageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
