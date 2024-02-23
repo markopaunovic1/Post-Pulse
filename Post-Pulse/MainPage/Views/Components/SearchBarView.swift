@@ -37,7 +37,8 @@ struct SearchBarView: View {
                         radius:  10, x: 3, y: 6)
                 .opacity(0.5)
         )
-        .padding()
+        .padding(.trailing, 50)
+        .padding(.bottom, 10)
     }
 }
 

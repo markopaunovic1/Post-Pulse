@@ -12,11 +12,15 @@ struct MainPageView: View {
     
     var body: some View {
         SearchBarView(searchText: $vm.searchText)
+        ItemView()
     }
 }
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         MainPageView().environmentObject(SearchBarViewModel())
+        ItemView()
+        ItemView()
+        ItemView()
     }
 }
