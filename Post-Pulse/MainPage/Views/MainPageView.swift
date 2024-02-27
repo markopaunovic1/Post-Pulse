@@ -12,6 +12,7 @@ struct MainPageView: View {
     
     var body: some View {
         SearchBarView(searchText: $vm.searchText)
+        CategoryItemView()
         ItemView()
     }
 }
@@ -19,8 +20,6 @@ struct MainPageView: View {
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         MainPageView().environmentObject(SearchBarViewModel())
-        ItemView()
-        ItemView()
         ItemView()
     }
 }
