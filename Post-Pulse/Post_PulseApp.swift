@@ -20,10 +20,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct Post_PulseApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(ItemViewModel())
         }
     }
 }

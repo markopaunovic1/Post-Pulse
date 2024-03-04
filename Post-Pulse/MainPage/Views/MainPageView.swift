@@ -8,18 +8,24 @@
 import SwiftUI
 struct MainPageView: View {
     
-    @EnvironmentObject var vm: SearchBarViewModel
+    @StateObject var vm = ItemViewModel()
+    @State private var showSearchResultView = false
+    
     
     var body: some View {
-        SearchBarView(searchText: $vm.searchText)
-        CategoryItemView()
-        ItemView()
+        
+        ZStack {
+            VStack{
+                ItemView()
+            }
+        }
     }
 }
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        MainPageView().environmentObject(SearchBarViewModel())
+        MainPageView().environmentObject(ItemViewModel())
+        CategoryItemView(selectedCategory: .constant(""))
         ItemView()
     }
 }
