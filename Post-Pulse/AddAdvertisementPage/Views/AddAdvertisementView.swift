@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct SellerAdvertisementView: View {
+struct AddAdvertisementView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("This is AddAdvertisementView")
     }
 }
 
-struct SellerAdvertisementView_Previews: PreviewProvider {
+struct AddAdvertisementView_Previews: PreviewProvider {
     static var previews: some View {
-        SellerAdvertisementView()
+        AddAdvertisementView()
     }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct CategoryItemView: View {
     
     let categories = ["Fordon", "Elektronik", "Hushål", "Fritid & Hobby", "Instrument", "Kläder", "Bostad", "Personligt", "Jobb", "Övrigt"]
+    @Binding var selectedCategory: String?
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -26,9 +27,9 @@ struct CategoryItemView: View {
                             .cornerRadius(25)
                             
                     }
-                    
                 }
             }
+            .padding(.leading, 15)
         }
         .shadow(color: .gray, radius: 4, x: 4, y: 4)
     }
@@ -36,6 +37,6 @@ struct CategoryItemView: View {
 
 struct CategoryItemView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryItemView()
+        CategoryItemView(selectedCategory: .constant(""))
     }
 }

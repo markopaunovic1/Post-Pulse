@@ -8,13 +8,60 @@
 import SwiftUI
 
 struct SellerAdvertisementView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    
+    @EnvironmentObject var data: ItemViewModel
+    
+    var items2: [Item] = showItem.items
+    
+    let item: Item
+    
+    init(item: Item) {
+        self.item = item
+                                            
     }
-}
-
-struct SellerAdvertisementView_Previews: PreviewProvider {
-    static var previews: some View {
-        SellerAdvertisementView()
+    
+    let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 2)
+    
+    var body: some View {
+        VStack(alignment: .center) {
+            TabView {
+                LazyVGrid(columns: columns, alignment: .center, spacing: 0) {
+                    ForEach(item.image, id: \.self) { imageName in
+                        Image(imageName)
+                            .resizable()
+                            .scaledToFit()
+                    }
+                }
+                .cornerRadius(5)
+            }
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .frame(width: .infinity, height: 250)
+            .padding(5)
+            
+            HStack(spacing: 200) {
+                Text(item.name)
+                    .fontWeight(.bold)
+                Text("\(item.price):-")
+                    .fontWeight(.bold)
+                    
+            }
+            Divider()
+                .background(Color.black)
+            
+            Text(item.description)
+                .frame(width: 350)
+                .padding(15)
+            
+            Divider()
+                .background(Color.black)
+        }
+    }
+    
+    
+    struct SellerAdvertisementView_Previews: PreviewProvider {
+        static var previews: some View {
+            SellerAdvertisementView(item: Item(name: "Passat 2016", image: ["passat sido", "passat rear", "passat interior", "passat profile"], description: "*KXG882*, ABS-bromsar, ACC/2-zons Klimatanläggning, Adaptiv farthållare, Airbag förare, Airbag passagerare fram, Airbag passagerare urkopplingsbar, Android Auto, Antisladd, Antispinn, Apple carplay, AUX-ingång, AWD, Backkamera, Bluetooth, CD/Radio, Dieselvärmare fjärrstyrd, Dragkrok utfällbar, Elbaklucka, Elhissar fram  Skinnklädsel, Sommardäck på 18 aluminiumfälgar, Start-/stoppfunktion, Svensksåld, Sätesvärme fram, Tonade rutor, USB-ingång", price: "999000", category: .fordon))
+                .environmentObject(ItemViewModel())
+        }
     }
 }

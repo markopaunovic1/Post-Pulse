@@ -8,8 +8,15 @@
 import SwiftUI
 
 struct SearchedItemRowCell: View {
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            Text("Passat 2016")
+                .textCase(.uppercase)
+                .padding(.leading)
+            Divider().background(Color.black)
+        }
+        .padding()
     }
 }
 
