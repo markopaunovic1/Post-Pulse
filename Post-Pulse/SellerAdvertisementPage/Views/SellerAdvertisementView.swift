@@ -9,53 +9,47 @@ import SwiftUI
 
 struct SellerAdvertisementView: View {
     
-    @EnvironmentObject var data: ItemViewModel
-    
-    var items2: [Item] = showItem.items
-    
     let item: Item
     
     init(item: Item) {
         self.item = item
-                                            
+        
     }
     
     let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 2)
     
     var body: some View {
-        VStack(alignment: .center) {
-            TabView {
+        ScrollView {
+            VStack(alignment: .center) {
                 LazyVGrid(columns: columns, alignment: .center, spacing: 0) {
-                    ForEach(item.image, id: \.self) { imageName in
-                        Image(imageName)
-                            .resizable()
-                            .scaledToFit()
+                    ForEach(item.image.indices, id: \.self) { index in
+                        GridImageView(index: index, imageName: item.image[index], item: item)
                     }
                 }
                 .cornerRadius(5)
-            }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-            .frame(width: .infinity, height: 250)
-            .padding(5)
-            
-            HStack(spacing: 200) {
-                Text(item.name)
-                    .fontWeight(.bold)
-                Text("\(item.price):-")
-                    .fontWeight(.bold)
+                .padding(5)
+                
+                HStack(spacing: 200) {
+                    Text(item.name)
+                        .fontWeight(.bold)
+                    Text("\(item.price):-")
+                        .fontWeight(.bold)
                     
+                }
+                Divider()
+                    .background(Color.black)
+                
+                Text(item.description)
+                    .frame(width: 350)
+                    .padding(15)
+                
+                Divider()
+                    .background(Color.black)
             }
-            Divider()
-                .background(Color.black)
-            
-            Text(item.description)
-                .frame(width: 350)
-                .padding(15)
-            
-            Divider()
-                .background(Color.black)
+            .padding()
         }
     }
+}
     
     
     struct SellerAdvertisementView_Previews: PreviewProvider {
@@ -64,4 +58,4 @@ struct SellerAdvertisementView: View {
                 .environmentObject(ItemViewModel())
         }
     }
-}
+
