@@ -23,7 +23,7 @@ struct SellerAdvertisementView: View {
             VStack(alignment: .center) {
                 LazyVGrid(columns: columns, alignment: .center, spacing: 0) {
                     ForEach(item.image.indices, id: \.self) { index in
-                        GridImageView(index: index, imageName: item.image[index], item: item)
+                        GridImageView(index: index, item: item)
                     }
                 }
                 .cornerRadius(5)
