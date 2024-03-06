@@ -29,22 +29,30 @@ struct SellerAdvertisementView: View {
                 .cornerRadius(5)
                 .padding(5)
                 
-                HStack(spacing: 200) {
+                HStack() {
                     Text(item.name)
                         .fontWeight(.bold)
+                        .lineLimit(1)
+                    Spacer()
                     Text("\(item.price):-")
-                        .fontWeight(.bold)
+                        .fontWeight(.medium)
+                        .lineLimit(2)
                     
                 }
+                .padding(.leading, 10)
+                .padding(.trailing, 10)
+                
                 Divider()
                     .background(Color.black)
                 
                 Text(item.description)
+                    .background(Color.gray.opacity(0.3))
                     .frame(width: 350)
                     .padding(15)
-                
                 Divider()
                     .background(Color.black)
+                
+                SellerCardInfoView(item: item)
             }
             .padding()
         }
@@ -54,7 +62,7 @@ struct SellerAdvertisementView: View {
     
     struct SellerAdvertisementView_Previews: PreviewProvider {
         static var previews: some View {
-            SellerAdvertisementView(item: Item(name: "Passat 2016", image: ["passat sido", "passat rear", "passat interior", "passat profile"], description: "*KXG882*, ABS-bromsar, ACC/2-zons Klimatanläggning, Adaptiv farthållare, Airbag förare, Airbag passagerare fram, Airbag passagerare urkopplingsbar, Android Auto, Antisladd, Antispinn, Apple carplay, AUX-ingång, AWD, Backkamera, Bluetooth, CD/Radio, Dieselvärmare fjärrstyrd, Dragkrok utfällbar, Elbaklucka, Elhissar fram  Skinnklädsel, Sommardäck på 18 aluminiumfälgar, Start-/stoppfunktion, Svensksåld, Sätesvärme fram, Tonade rutor, USB-ingång", price: "999000", category: .fordon))
+            SellerAdvertisementView(item: Item(user: User(nameOfUser: "John Doe", phoneNumber: "123456789", emailAddress: "john@example.com", employment: "Företag"), name: "Passat 2016", image: ["passat sido", "passat rear", "passat interior", "passat profile"], description: "*KXG882*, ABS-bromsar, ACC/2-zons Klimatanläggning, Adaptiv farthållare, Airbag förare, Airbag passagerare fram, Airbag passagerare urkopplingsbar, Android Auto, Antisladd, Antispinn, Apple carplay, AUX-ingång, AWD, Backkamera, Bluetooth, CD/Radio, Dieselvärmare fjärrstyrd, Dragkrok utfällbar, Elbaklucka, Elhissar fram  Skinnklädsel, Sommardäck på 18 aluminiumfälgar, Start-/stoppfunktion, Svensksåld, Sätesvärme fram, Tonade rutor, USB-ingång", price: "999000", category: .fordon))
                 .environmentObject(ItemViewModel())
         }
     }

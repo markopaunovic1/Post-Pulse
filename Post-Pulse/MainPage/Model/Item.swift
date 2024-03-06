@@ -7,9 +7,23 @@
 
 import Foundation
 
+class User {
+    let nameOfUser: String
+    let phoneNumber: String
+    let emailAddress: String
+    let employment: String
+    
+    init(nameOfUser: String, phoneNumber: String, emailAddress: String, employment: String) {
+        self.nameOfUser = nameOfUser
+        self.phoneNumber = phoneNumber
+        self.emailAddress = emailAddress
+        self.employment = employment
+    }
+}
 
-struct Item: Identifiable, Hashable, Equatable {
+struct Item: Identifiable {
     let id = UUID()
+    let user: User
     let name: String
     let image: [String]
     let description: String

@@ -9,7 +9,10 @@ import Foundation
 
 class ItemViewModel: ObservableObject {
     
+    // For filtering search
     @Published var allItems: [Item] = []
+    
+    // for user to search
     @Published var searchText: String = ""
     
     init() {
@@ -30,7 +33,12 @@ class showItem {
     
     static let items = [
     
-        Item(name: "PASSAT 2016",
+        Item(user: User(nameOfUser: "John Doe",
+                        phoneNumber: "123456789",
+                        emailAddress: "john@example.com",
+                        employment: "privat"),
+             
+             name: "PASSAT 2016",
              image: ["passat sido",
                      "passat rear",
                      "passat interior",
@@ -42,7 +50,12 @@ class showItem {
                  price: "1000000",
              category: .fordon),
         
-        Item(name: "Guitar",
+        Item(user: User(nameOfUser: "John Doe",
+                        phoneNumber: "123456789",
+                        emailAddress: "john@example.com",
+                        employment: "Företag"),
+             
+             name: "Guitar",
              image: ["guitar side",
                      "guitar back",
                      "guitar close front",
@@ -52,7 +65,12 @@ class showItem {
                  price: "2299",
              category: .fritidHobby),
         
-        Item(name: "Guitar",
+        Item(user: User(nameOfUser: "John Doe",
+                        phoneNumber: "123456789",
+                        emailAddress: "john@example.com",
+                        employment: "Företag"),
+             
+             name: "Guitar",
              image: ["guitar side",
                      "guitar back",
                      "guitar close front"],
