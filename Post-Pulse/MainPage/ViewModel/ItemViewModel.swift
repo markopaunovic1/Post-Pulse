@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ItemViewModel: ObservableObject {
     
@@ -14,6 +15,37 @@ class ItemViewModel: ObservableObject {
     
     // for user to search
     @Published var searchText: String = ""
+    
+    // Properties for Image Viewer
+    @Published var showImageViewer = false
+    @Published var selectedImageID: String = ""
+    @Published var imageViewerOffset: CGSize = .zero
+    @Published var backGroundOpacity:  Double = 1
+    
+    func onchange(value: CGSize) {
+        imageViewerOffset = value
+        
+        let height = UIScreen.main.bounds.height / 2
+    }
+    
+    func onEnd(value: DragGesture.Value) {
+        withAnimation(.easeOut) {
+            
+            var translation = value.translation.height
+            
+            if translation < 200 {
+                translation = -translation
+            }
+            
+            if translation < 200{
+                imageViewerOffset = .zero
+                
+            } else {
+                showImageViewer.toggle()
+                imageViewerOffset = .zero
+            }
+        }
+    }
     
     init() {
         self.allItems = showItem.items
