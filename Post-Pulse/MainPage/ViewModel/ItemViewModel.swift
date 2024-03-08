@@ -26,6 +26,12 @@ class ItemViewModel: ObservableObject {
         imageViewerOffset = value
         
         let height = UIScreen.main.bounds.height / 2
+        
+        let progress = imageViewerOffset.height / height
+        
+        withAnimation(.default) {
+            backGroundOpacity = Double(1 - (progress < 0 ? -progress : progress))
+        }
     }
     
     func onEnd(value: DragGesture.Value) {
@@ -35,6 +41,7 @@ class ItemViewModel: ObservableObject {
             
             if translation < 200 {
                 translation = -translation
+                backGroundOpacity = 1
             }
             
             if translation < 200{
@@ -43,6 +50,7 @@ class ItemViewModel: ObservableObject {
             } else {
                 showImageViewer.toggle()
                 imageViewerOffset = .zero
+                backGroundOpacity = 1
             }
         }
     }
