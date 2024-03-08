@@ -67,6 +67,7 @@ struct ItemView: View {
                     }
                 }
             }
+            .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
         }
     }
 }

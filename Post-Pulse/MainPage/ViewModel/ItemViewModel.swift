@@ -6,11 +6,54 @@
 //
 
 import Foundation
+import SwiftUI
 
 class ItemViewModel: ObservableObject {
     
+    // For filtering search
     @Published var allItems: [Item] = []
+    
+    // for user to search
     @Published var searchText: String = ""
+    
+    // Properties for Image Viewer
+    @Published var showImageViewer = false
+    @Published var selectedImageID: String = ""
+    @Published var imageViewerOffset: CGSize = .zero
+    @Published var backGroundOpacity:  Double = 1
+    
+    func onchange(value: CGSize) {
+        imageViewerOffset = value
+        
+        let height = UIScreen.main.bounds.height / 2
+        
+        let progress = imageViewerOffset.height / height
+        
+        withAnimation(.default) {
+            backGroundOpacity = Double(1 - (progress < 0 ? -progress : progress))
+        }
+    }
+    
+    func onEnd(value: DragGesture.Value) {
+        withAnimation(.easeOut) {
+            
+            var translation = value.translation.height
+            
+            if translation < 200 {
+                translation = -translation
+                backGroundOpacity = 1
+            }
+            
+            if translation < 200{
+                imageViewerOffset = .zero
+                
+            } else {
+                showImageViewer.toggle()
+                imageViewerOffset = .zero
+                backGroundOpacity = 1
+            }
+        }
+    }
     
     init() {
         self.allItems = showItem.items
@@ -30,7 +73,12 @@ class showItem {
     
     static let items = [
     
-        Item(name: "PASSAT 2016",
+        Item(user: User(nameOfUser: "John Doe",
+                        phoneNumber: "123456789",
+                        emailAddress: "john@example.com",
+                        employment: "privat"),
+             
+             name: "PASSAT 2016",
              image: ["passat sido",
                      "passat rear",
                      "passat interior",
@@ -42,7 +90,12 @@ class showItem {
                  price: "1000000",
              category: .fordon),
         
-        Item(name: "Guitar",
+        Item(user: User(nameOfUser: "John Doe",
+                        phoneNumber: "123456789",
+                        emailAddress: "john@example.com",
+                        employment: "Företag"),
+             
+             name: "Guitar",
              image: ["guitar side",
                      "guitar back",
                      "guitar close front",
@@ -52,7 +105,12 @@ class showItem {
                  price: "2299",
              category: .fritidHobby),
         
-        Item(name: "Guitar",
+        Item(user: User(nameOfUser: "John Doe",
+                        phoneNumber: "123456789",
+                        emailAddress: "john@example.com",
+                        employment: "Företag"),
+             
+             name: "Guitar",
              image: ["guitar side",
                      "guitar back",
                      "guitar close front"],
