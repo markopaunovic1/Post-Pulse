@@ -37,7 +37,7 @@ struct LoginView: View {
                             InputView(text: $email, title: "Mejl:", placeholder: "namn@exempel.se")
                                 .autocapitalization(.none)
                             
-                            InputView(text: $password, title: "Lösenord", placeholder: "Skriv in lösenord", isSecureField: true)
+                            InputView(text: $password, title: "Lösenord:", placeholder: "Skriv in lösenord", isSecureField: true)
                         }
                         
                         // sign in button
@@ -57,12 +57,12 @@ struct LoginView: View {
                         // sign up Button
                         
                         NavigationLink {
-                            RegisterView(email: $email, password: $password)
+                            RegisterView()
                         } label: {
                             HStack(spacing: 5) {
-                                Text("Har inte konto?")
+                                Text("Har du inget konto?")
                                     .foregroundColor(.white)
-                                Text("Registrera")
+                                Text("Skapa konto")
                                     .fontWeight(.bold)
                                     .foregroundColor(.white)
                             }

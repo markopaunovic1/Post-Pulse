@@ -9,8 +9,11 @@ import SwiftUI
 
 struct RegisterView: View {
     
-    @Binding var email: String
-    @Binding var password: String
+    @State private var email = ""
+    @State private var fullname = ""
+    @State private var password = ""
+    @State private var confirmPassword = ""
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         GeometryReader { geo in
@@ -23,32 +26,31 @@ struct RegisterView: View {
                     .frame(width: geo.size.width, height: geo.size.height, alignment: .center)
                     .opacity(1.0)
                 
-                VStack(alignment: .center) {
-                    Image("PostPulseLogo")
-                        .resizable()
-                        .scaledToFit()
-                        .padding(30)
-                        .padding(.bottom, 150)
-                    
-                    // user inputs
-                    Section {
-                        TextField("Mejl:", text: $email)
-                        TextField("Lösenord:", text: $password)
+                VStack {
+                    VStack(alignment: .center) {
+                        Image("PostPulseLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .padding(30)
+                            .padding(.bottom, 150)
+                        
+                        InputView(text: $email, title: "Mejl:", placeholder: "namn@exempel.se")
+                            .autocapitalization(.none)
+                        
+                        InputView(text: $fullname, title: "Fullständiga namn:", placeholder: "John Doe")
+                        
+                        InputView(text: $password, title: "Lösenord:", placeholder: "Skriv in lösenord", isSecureField: true)
+                        
+                        InputView(text: $confirmPassword, title: "Bekräfta lösenord:", placeholder: "Skriv in lösenord", isSecureField: true)
                     }
-                    .padding(5)
-                    .padding(.leading, 8)
-                    .autocapitalization(.none)
-                    .font(.system(size: 20))
-                    .background(Color.white.opacity(0.8))
-                    .cornerRadius(25)
-                    .frame(width: 280)
+                    .padding(.horizontal)
                     
-                    .padding(.bottom, 20)
-                    // sign in button
                     Button {
-                        print("Log user in")
+                        print("Signing up user...")
+                            dismiss()
+
                     } label: {
-                        Text("LOGGA IN")
+                        Text("SKAPA KONTO")
                             .frame(width: 230, height: 45)
                     }
                     .foregroundColor(.white)
@@ -56,6 +58,23 @@ struct RegisterView: View {
                     .background(Color(red: 28/255, green: 47/255, blue: 89/255))
                     .cornerRadius(10)
                     .padding(4)
+                    .padding(.top, 20)
+                    
+                    Spacer()
+                    
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack(spacing: 5) {
+                            Text("Har du redan ett konto?")
+                                .foregroundColor(.white)
+                            Text("Logga in")
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                        }
+                        .font(.system(size: 14))
+                    }
+
                     
                 }
             }
@@ -65,6 +84,6 @@ struct RegisterView: View {
 
 struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterView(email: .constant(""), password: .constant(""))
+        RegisterView()
     }
 }
