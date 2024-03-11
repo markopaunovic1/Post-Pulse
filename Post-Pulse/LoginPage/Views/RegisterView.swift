@@ -13,6 +13,7 @@ struct RegisterView: View {
     @State private var fullname = ""
     @State private var password = ""
     @State private var confirmPassword = ""
+    @EnvironmentObject var authViewModel: AuthViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -46,8 +47,9 @@ struct RegisterView: View {
                     .padding(.horizontal)
                     
                     Button {
-                        print("Signing up user...")
-                            dismiss()
+                        Task {
+                            try await authViewModel.createUser(withEmail: email, password: password, fullname: fullname)
+                        }
 
                     } label: {
                         Text("SKAPA KONTO")

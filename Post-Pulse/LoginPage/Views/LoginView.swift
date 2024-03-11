@@ -12,6 +12,7 @@ struct LoginView: View {
     
     @State var email: String = ""
     @State var password: String = ""
+    @EnvironmentObject var authViewModel : AuthViewModel
     
     var body: some View {
         NavigationStack {
@@ -43,7 +44,9 @@ struct LoginView: View {
                         
                         // sign in button
                         Button {
-                            login()
+                            Task {
+                                try await authViewModel.signIn(withEmail: email, password: password)
+                            }
                         } label: {
                             Text("LOGGA IN")
                                 .frame(width: 230, height: 45)
@@ -71,19 +74,6 @@ struct LoginView: View {
                         
                     }
                 }
-            }
-        }
-    }
-    func login() {
-        
-        var isLoggedIn = false
-        
-        Auth.auth().signIn(withEmail: email, password: password) {(result, error) in
-            if error != nil {
-                isLoggedIn.toggle()
-                print(error?.localizedDescription ?? "")
-            } else {
-                print("success")
             }
         }
     }

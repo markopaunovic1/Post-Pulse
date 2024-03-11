@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     var body: some View {
         ZStack {
             TabView {
@@ -19,20 +21,29 @@ struct ContentView: View {
                             Label("Hem", systemImage: "house")
                         }
                     
-                    LoginView()
-                        .tabItem() {
-                            Label("Lägg till", systemImage: "plus.square")
-                        }
-                    
-                    LoginView()
-                        .tabItem() {
-                            Label("Favoriter", systemImage: "heart.fill")
-                        }
-                    
-                    LoginView()
-                        .tabItem() {
-                            Label("Min Profil", systemImage: "person.crop.circle")
-                        }
+                    if authViewModel.userSession != nil {
+                        
+                        AddAdvertisementView()
+                            .tabItem() {
+                                Label("Lägg till", systemImage: "plus.square")
+                            }
+                        
+                        UserFavoriteAdView()
+                            .tabItem() {
+                                Label("Favoriter", systemImage: "heart.fill")
+                            }
+                        
+                        UserView()
+                            .tabItem() {
+                                Label("Min Profil", systemImage: "person.crop.circle")
+                            }
+                        
+                    } else {
+                        LoginView()
+                            .tabItem() {
+                                Label("logga in", systemImage: "person.circle")
+                            }
+                    }
                 }
                 .toolbar(.visible, for: .tabBar)
                 .toolbarBackground(Color(red: 20/255, green: 30/255, blue: 61/255), for: .tabBar)
@@ -51,6 +62,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(AuthViewModel())
     }
 }
