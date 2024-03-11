@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct LoginView: View {
     
@@ -32,7 +33,7 @@ struct LoginView: View {
                             .padding(.bottom, 150)
                         
                         // user inputs
-                    
+                        
                         VStack(spacing: 24) {
                             InputView(text: $email, title: "Mejl:", placeholder: "namn@exempel.se")
                                 .autocapitalization(.none)
@@ -42,7 +43,7 @@ struct LoginView: View {
                         
                         // sign in button
                         Button {
-                            print("Logging in...")
+                            login()
                         } label: {
                             Text("LOGGA IN")
                                 .frame(width: 230, height: 45)
@@ -55,7 +56,6 @@ struct LoginView: View {
                         .padding(.top, 20)
                         
                         // sign up Button
-                        
                         NavigationLink {
                             RegisterView()
                         } label: {
@@ -68,9 +68,22 @@ struct LoginView: View {
                             }
                             .font(.system(size: 14))
                         }
-
+                        
                     }
                 }
+            }
+        }
+    }
+    func login() {
+        
+        var isLoggedIn = false
+        
+        Auth.auth().signIn(withEmail: email, password: password) {(result, error) in
+            if error != nil {
+                isLoggedIn.toggle()
+                print(error?.localizedDescription ?? "")
+            } else {
+                print("success")
             }
         }
     }

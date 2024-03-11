@@ -19,17 +19,17 @@ struct ContentView: View {
                             Label("Hem", systemImage: "house")
                         }
                     
-                    AddAdvertisementView()
+                    LoginView()
                         .tabItem() {
                             Label("Lägg till", systemImage: "plus.square")
                         }
                     
-                    UserFavoriteAdView()
+                    LoginView()
                         .tabItem() {
                             Label("Favoriter", systemImage: "heart.fill")
                         }
                     
-                    UserView()
+                    LoginView()
                         .tabItem() {
                             Label("Min Profil", systemImage: "person.crop.circle")
                         }

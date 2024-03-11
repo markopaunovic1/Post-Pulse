@@ -60,8 +60,6 @@ struct RegisterView: View {
                     .padding(4)
                     .padding(.top, 20)
                     
-                    Spacer()
-                    
                     Button {
                         dismiss()
                     } label: {
@@ -74,8 +72,7 @@ struct RegisterView: View {
                         }
                         .font(.system(size: 14))
                     }
-
-                    
+                    Spacer()
                 }
             }
         }
