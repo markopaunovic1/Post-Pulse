@@ -9,6 +9,10 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
+protocol AuthenticationFormProtocol {
+    var inputIsValid: Bool { get }
+}
+
 @MainActor
 class AuthViewModel: ObservableObject {
     

@@ -189,6 +189,7 @@
 				AF0366D52B9B848600676E33 /* Components */,
 				AF0366D12B9B5E0200676E33 /* LoginView.swift */,
 				AF0366D32B9B827500676E33 /* RegisterView.swift */,
+				AF0366DC2B9F5AD500676E33 /* AuthViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -417,7 +418,6 @@
 		AFCD75472B8F5753000DE6A8 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				AF0366DC2B9F5AD500676E33 /* AuthViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";

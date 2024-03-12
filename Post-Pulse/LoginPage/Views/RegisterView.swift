@@ -48,7 +48,27 @@ struct RegisterView: View {
                         
                         InputView(text: $password, title: "Lösenord:", placeholder: "Skriv in lösenord", isSecureField: true)
                         
-                        InputView(text: $confirmPassword, title: "Bekräfta lösenord:", placeholder: "Skriv in lösenord", isSecureField: true)
+                        ZStack(alignment: .trailing) {
+                            InputView(text: $confirmPassword, title: "Bekräfta lösenord:", placeholder: "Skriv in lösenord", isSecureField: true)
+                            
+                            if !password.isEmpty && !confirmPassword.isEmpty {
+                                if password == confirmPassword {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .frame(width: 15, height: 15)
+                                        .padding(.trailing, 10)
+                                        .padding(.top, 20)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color.green)
+                                } else {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .frame(width: 15, height: 15)
+                                        .padding(.trailing, 10)
+                                        .padding(.top, 20)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color.red)
+                                }
+                            }
+                        }
                     }
                     .padding(.horizontal)
                     
@@ -64,6 +84,8 @@ struct RegisterView: View {
                     .foregroundColor(.white)
                     .fontWeight(.semibold)
                     .background(Color(red: 28/255, green: 47/255, blue: 89/255))
+                    .disabled(!inputIsValid)
+                    .opacity(inputIsValid ? 1.0 : 0.5)
                     .cornerRadius(10)
                     .padding(4)
                     .padding(.top, 20)
@@ -84,6 +106,18 @@ struct RegisterView: View {
                 }
             }
         }
+    }
+}
+
+// AuthenticationFormProtocol
+extension RegisterView: AuthenticationFormProtocol {
+    var inputIsValid: Bool {
+        return !email.isEmpty
+        && email.contains("@")
+        && !password.isEmpty
+        && password.count > 5
+        && confirmPassword == password
+        && !fullname.isEmpty
     }
 }
 

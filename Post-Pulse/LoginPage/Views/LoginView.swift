@@ -54,6 +54,8 @@ struct LoginView: View {
                         .foregroundColor(.white)
                         .fontWeight(.semibold)
                         .background(Color(red: 28/255, green: 47/255, blue: 89/255))
+                        .disabled(!inputIsValid)
+                        .opacity(inputIsValid ? 1.0 : 0.5)
                         .cornerRadius(10)
                         .padding(4)
                         .padding(.top, 20)
@@ -76,6 +78,16 @@ struct LoginView: View {
                 }
             }
         }
+    }
+}
+
+// AuthenticationFormProtocol
+extension LoginView: AuthenticationFormProtocol {
+    var inputIsValid: Bool {
+        return !email.isEmpty
+        && email.contains("@")
+        && !password.isEmpty
+        && password.count > 5
     }
 }
 
