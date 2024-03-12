@@ -19,11 +19,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 @main
 struct Post_PulseApp: App {
+    @StateObject var authViewModel = AuthViewModel()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(ItemViewModel())
+                .environmentObject(authViewModel)
         }
     }
 }

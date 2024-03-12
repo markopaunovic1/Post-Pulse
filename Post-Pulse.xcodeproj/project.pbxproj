@@ -13,6 +13,9 @@
 		AF0366D22B9B5E0200676E33 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0366D12B9B5E0200676E33 /* LoginView.swift */; };
 		AF0366D42B9B827500676E33 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0366D32B9B827500676E33 /* RegisterView.swift */; };
 		AF0366D72B9B849900676E33 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0366D62B9B849900676E33 /* InputView.swift */; };
+		AF0366D92B9F25F300676E33 /* pathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0366D82B9F25F300676E33 /* pathView.swift */; };
+		AF0366DB2B9F499300676E33 /* User2.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0366DA2B9F499300676E33 /* User2.swift */; };
+		AF0366DD2B9F5AD500676E33 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0366DC2B9F5AD500676E33 /* AuthViewModel.swift */; };
 		AFCD74CB2B860BF4000DE6A8 /* Post_PulseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD74CA2B860BF4000DE6A8 /* Post_PulseApp.swift */; };
 		AFCD74CD2B860BF4000DE6A8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD74CC2B860BF4000DE6A8 /* ContentView.swift */; };
 		AFCD74CF2B860BF7000DE6A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFCD74CE2B860BF7000DE6A8 /* Assets.xcassets */; };
@@ -96,6 +99,9 @@
 		AF0366D12B9B5E0200676E33 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		AF0366D32B9B827500676E33 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		AF0366D62B9B849900676E33 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		AF0366D82B9F25F300676E33 /* pathView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pathView.swift; sourceTree = "<group>"; };
+		AF0366DA2B9F499300676E33 /* User2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User2.swift; sourceTree = "<group>"; };
+		AF0366DC2B9F5AD500676E33 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		AFCD74C72B860BF4000DE6A8 /* Post-Pulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Post-Pulse.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFCD74CA2B860BF4000DE6A8 /* Post_PulseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post_PulseApp.swift; sourceTree = "<group>"; };
 		AFCD74CC2B860BF4000DE6A8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -183,6 +189,7 @@
 				AF0366D52B9B848600676E33 /* Components */,
 				AF0366D12B9B5E0200676E33 /* LoginView.swift */,
 				AF0366D32B9B827500676E33 /* RegisterView.swift */,
+				AF0366DC2B9F5AD500676E33 /* AuthViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -418,6 +425,7 @@
 		AFCD75482B8F575A000DE6A8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AF0366DA2B9F499300676E33 /* User2.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -426,6 +434,7 @@
 			isa = PBXGroup;
 			children = (
 				AFCD75522B8F58A4000DE6A8 /* UserView.swift */,
+				AF0366D82B9F25F300676E33 /* pathView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -624,6 +633,9 @@
 				AFCD752E2B8C94A4000DE6A8 /* CategoryItemViewModel.swift in Sources */,
 				AFCD75332B8CA316000DE6A8 /* Color.swift in Sources */,
 				AFCD754F2B8F5845000DE6A8 /* AddAdvertisementView.swift in Sources */,
+				AF0366D92B9F25F300676E33 /* pathView.swift in Sources */,
+				AF0366DD2B9F5AD500676E33 /* AuthViewModel.swift in Sources */,
+				AF0366DB2B9F499300676E33 /* User2.swift in Sources */,
 				AF0366D72B9B849900676E33 /* InputView.swift in Sources */,
 				AF0366D22B9B5E0200676E33 /* LoginView.swift in Sources */,
 				AFCD75532B8F58A4000DE6A8 /* UserView.swift in Sources */,
