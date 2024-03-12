@@ -18,6 +18,7 @@ struct LoginView: View {
         NavigationStack {
             GeometryReader { geo in
                 ZStack {
+                    
                     //Background Image
                     Image("LoginImage")
                         .resizable()
@@ -34,7 +35,6 @@ struct LoginView: View {
                             .padding(.bottom, 150)
                         
                         // user inputs
-                        
                         VStack(spacing: 24) {
                             InputView(text: $email, title: "Mejl:", placeholder: "namn@exempel.se")
                                 .autocapitalization(.none)

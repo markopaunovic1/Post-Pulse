@@ -11,6 +11,8 @@ struct RegisterView: View {
     
     @State private var email = ""
     @State private var fullname = ""
+    @State private var employment = ""
+    @State private var phoneNumber = ""
     @State private var password = ""
     @State private var confirmPassword = ""
     @EnvironmentObject var authViewModel: AuthViewModel
@@ -33,12 +35,16 @@ struct RegisterView: View {
                             .resizable()
                             .scaledToFit()
                             .padding(30)
-                            .padding(.bottom, 150)
+                            .padding(.bottom, 50)
                         
                         InputView(text: $email, title: "Mejl:", placeholder: "namn@exempel.se")
                             .autocapitalization(.none)
                         
                         InputView(text: $fullname, title: "Fullständiga namn:", placeholder: "John Doe")
+                        
+                        InputView(text: $employment, title: "Privat eller Företag:", placeholder: "Företag etc")
+                        
+                        InputView(text: $phoneNumber, title: "Telefon nummer:", placeholder: "076...")
                         
                         InputView(text: $password, title: "Lösenord:", placeholder: "Skriv in lösenord", isSecureField: true)
                         
@@ -48,7 +54,7 @@ struct RegisterView: View {
                     
                     Button {
                         Task {
-                            try await authViewModel.createUser(withEmail: email, password: password, fullname: fullname)
+                            try await authViewModel.createUser(withEmail: email, password: password, fullname: fullname, employment: employment, phoneNumber: phoneNumber)
                         }
 
                     } label: {

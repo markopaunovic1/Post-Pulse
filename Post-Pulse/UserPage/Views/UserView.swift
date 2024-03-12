@@ -8,49 +8,63 @@
 import SwiftUI
 
 struct UserView: View {
+    
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
     var body: some View {
-        ZStack {
-            Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0)
-                .ignoresSafeArea()
-            
-            VStack(alignment: .center, spacing: 20) {
-                HStack(spacing: 20) {
-                    Image(systemName: "person.crop.circle")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 50, height: 50)
-                        .foregroundColor(Color(red: 20/255.0, green: 33/255.0, blue: 61/255.0))
-                    
-                    VStack(alignment: .leading) {
-                        Text(User2.MOCK_USER.fullname)
-                            .fontWeight(.bold)
+        if let user = authViewModel.currentUser {
+            ZStack {
+                Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0)
+                    .ignoresSafeArea()
+                
+                VStack(alignment: .center, spacing: 20) {
+                    HStack(spacing: 20) {
+                        Image(systemName: "person.crop.circle")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(Color(red: 20/255.0, green: 33/255.0, blue: 61/255.0))
                         
-                        Text(User2.MOCK_USER.email)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
+                        VStack(alignment: .leading) {
+                            Text(user.fullname)
+                                .fontWeight(.bold)
+                            
+                            Text(user.email)
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
                     }
-                }
-                .frame(width: 350, height: 70)
-                .background(Rectangle().fill((Color(red: 229/255.0, green: 229/255.0, blue: 229/255.0))))
-                .cornerRadius(5)
-                
-                Divider()
-                
-                Section {
-                    Button {
-                        print("mina annonser")
-                    } label: {
-                        pathView(imageName: "list.triangle", pathName: "Mina annonser")
-                    }
+                    .frame(width: 350, height: 70)
+                    .background(Rectangle().fill((Color(red: 229/255.0, green: 229/255.0, blue: 229/255.0))))
+                    .cornerRadius(5)
                     
-                    Button {
-                        print("sparade favoriter")
-                    } label: {
-                        pathView(imageName: "heart.fill", pathName: "Sparade favoriter")
+                    Divider()
+                    
+                    Section {
+                        Button {
+                            print("mina annonser")
+                        } label: {
+                            pathView(imageName: "list.triangle", pathName: "Mina annonser")
+                        }
+                        
+                        Button {
+                            print("sparade favoriter")
+                        } label: {
+                            pathView(imageName: "heart.fill", pathName: "Sparade favoriter")
+                        }
+                        Spacer()
+                        Button {
+                            authViewModel.signOut()
+                        } label: {
+                            pathView(imageName: "rectangle.portrait.and.arrow.right", pathName: "Logga ut")
+                                .foregroundColor(.red)
+                                .padding(.bottom, 30)
+                                
+                        }
                     }
+                    .accentColor(Color(red: 20/255.0, green: 33/255.0, blue: 61/255.0))
+
                 }
-                .accentColor(Color(red: 20/255.0, green: 33/255.0, blue: 61/255.0))
-                Spacer()
             }
         }
     }
@@ -58,6 +72,6 @@ struct UserView: View {
 
 struct UserView_Previews: PreviewProvider {
     static var previews: some View {
-        UserView()
+        UserView().environmentObject(AuthViewModel())
     }
 }
