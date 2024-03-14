@@ -51,6 +51,7 @@ struct RegisterView: View {
                         ZStack(alignment: .trailing) {
                             InputView(text: $confirmPassword, title: "Bekräfta lösenord:", placeholder: "Skriv in lösenord", isSecureField: true)
                             
+                            // conforming protocol validation before signing in
                             if !password.isEmpty && !confirmPassword.isEmpty {
                                 if password == confirmPassword {
                                     Image(systemName: "checkmark.circle.fill")
