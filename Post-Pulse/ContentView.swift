@@ -23,7 +23,7 @@ struct ContentView: View {
                     
                     if authViewModel.userSession != nil {
                         
-                        AddAdvertisementView()
+                        CreateAdvertisementView()
                             .tabItem() {
                                 Label("Lägg till", systemImage: "plus.square")
                             }
