@@ -11,15 +11,15 @@ import PhotosUI
 struct CreateGridImageView: View {
     
     @State private var pickerItems = [PhotosPickerItem]()
-    @State private var selectedImages = [Image]()
+    @EnvironmentObject var createAdViewModel: CreateAdViewModel
     
     let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 2)
     
     var body: some View {
         VStack {
             LazyVGrid(columns: columns, alignment: .leading, spacing: 0) {
-                ForEach(0..<selectedImages.count, id: \.self) { i in
-                    selectedImages[i]
+                ForEach(0..<createAdViewModel.selectedImages.count, id: \.self) { i in
+                    Image(uiImage: createAdViewModel.selectedImages[i])
                         .resizable()
                         .scaledToFit()
                 }
@@ -28,11 +28,15 @@ struct CreateGridImageView: View {
             .shadow(color: .gray, radius: 6, x: 3, y: 4)
             .onChange(of: pickerItems) { newValue in
                 Task {
-                    selectedImages.removeAll()
+                    createAdViewModel.selectedImages.removeAll()
                     
                     for item in pickerItems {
-                        if let loadedImage = try await item.loadTransferable(type: Image.self) {
-                            selectedImages.append(loadedImage)
+                        if let data = try? await item.loadTransferable(type: Data.self) {
+                            if let uiImage = UIImage(data: data) {
+                                DispatchQueue.main.async {
+                                    createAdViewModel.selectedImages.append(uiImage)
+                                }
+                            }
                         }
                     }
                 }

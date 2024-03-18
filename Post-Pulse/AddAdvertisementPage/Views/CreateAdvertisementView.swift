@@ -10,22 +10,23 @@ import PhotosUI
 
 struct CreateAdvertisementView: View {
     
-    @State private var pickerItems = [PhotosPickerItem]()
-    @State private var selectedImages = [Image]()
+    enum ActiveAlert {
+        case first, second
+    }
     
     @State private var itemName = ""
     @State private var price = ""
     @State private var description = ""
+    @State private var showingAlert = false
+    @State private var handleInputAlert: ActiveAlert = .second
     
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var createAdViewModel: CreateAdViewModel
     
     var body: some View {
-        
         ZStack {
             Color(red: 194/255, green: 196/255, blue: 207/255)
                 .ignoresSafeArea()
-            
             
             ScrollView {
                 VStack {
@@ -54,7 +55,7 @@ struct CreateAdvertisementView: View {
                     Divider()
                     TextField("Beskrivning..." ,text: $description, axis: .vertical)
                         .padding(10)
-                        
+                    
                         .background(Color(red: 229/255.0, green: 229/255.0, blue: 229/255.0))
                         .cornerRadius(10)
                         .shadow(color: .gray, radius: 6, x: 3, y: 4)
@@ -62,14 +63,18 @@ struct CreateAdvertisementView: View {
                     Divider()
                     
                     Button {
-                        Task {
-                            if let userId = authViewModel.currentUser?.id {
-                                try await createAdViewModel.addAdvertisement(itemName: itemName, price: price, description: description, userId: userId)
-                            } else {
-                                print("User not logged in")
+                        // Handles input validation before uploading to firebase
+                        if !itemName.isEmpty && !price.isEmpty && !description.isEmpty {
+                            Task {
+                                if let userId = authViewModel.currentUser?.id {
+                                    createAdViewModel.uploadItem(itemName: itemName, price: price, description: description, userId: userId, images: createAdViewModel.selectedImages)
+                                }
                             }
+                            self.handleInputAlert = .first
+                        } else {
+                            self.handleInputAlert = .second
                         }
-                        
+                        self.showingAlert = true
                     } label: {
                         Text("Skapa annons +")
                             .padding(13)
@@ -79,17 +84,35 @@ struct CreateAdvertisementView: View {
                             .shadow(color: .gray, radius: 6, x: 3, y: 4)
                         
                     }
+                    // Alert pop up if the ad is created
+                    .alert(isPresented: $showingAlert) {
+                        switch handleInputAlert {
+                        case .first:
+                            return Alert(
+                                title: Text("Annonsen har skapats!"),
+                                message: Text("Återgå till start"),
+                                primaryButton: .default(Text("Huvudmeny")) {
+                                    print("successfully uploaded item")
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        case .second:
+                            return Alert(
+                                title: Text("Saknar information"),
+                                message: Text("Skriv in i det tomma fältet"),
+                                primaryButton: .default(Text("Fortsätt")) {
+                                    print("missing information")
+                                },
+                                secondaryButton: .cancel()
+                            )
+                        }
+                    }
                 }
                 .padding(10)
             }
         }
     }
 }
-
-protocol CreationFormProtocol {
-    var inputIsValid: Bool { get }
-}
-
 
 struct CreateAdvertisementView_Previews: PreviewProvider {
     static var previews: some View {

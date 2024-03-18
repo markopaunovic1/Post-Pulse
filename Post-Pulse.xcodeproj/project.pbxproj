@@ -18,6 +18,7 @@
 		AF0366DD2B9F5AD500676E33 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0366DC2B9F5AD500676E33 /* AuthViewModel.swift */; };
 		AF0366DF2BA09D8100676E33 /* CreateAdViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0366DE2BA09D8100676E33 /* CreateAdViewModel.swift */; };
 		AF0366E12BA1E3E300676E33 /* CreateGridImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0366E02BA1E3E300676E33 /* CreateGridImageView.swift */; };
+		AF0366E42BA84D2B00676E33 /* UIImage+Transferable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0366E32BA84D2B00676E33 /* UIImage+Transferable.swift */; };
 		AFCD74CB2B860BF4000DE6A8 /* Post_PulseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD74CA2B860BF4000DE6A8 /* Post_PulseApp.swift */; };
 		AFCD74CD2B860BF4000DE6A8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCD74CC2B860BF4000DE6A8 /* ContentView.swift */; };
 		AFCD74CF2B860BF7000DE6A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFCD74CE2B860BF7000DE6A8 /* Assets.xcassets */; };
@@ -106,6 +107,7 @@
 		AF0366DC2B9F5AD500676E33 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		AF0366DE2BA09D8100676E33 /* CreateAdViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAdViewModel.swift; sourceTree = "<group>"; };
 		AF0366E02BA1E3E300676E33 /* CreateGridImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGridImageView.swift; sourceTree = "<group>"; };
+		AF0366E32BA84D2B00676E33 /* UIImage+Transferable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Transferable.swift"; sourceTree = "<group>"; };
 		AFCD74C72B860BF4000DE6A8 /* Post-Pulse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Post-Pulse.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFCD74CA2B860BF4000DE6A8 /* Post_PulseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post_PulseApp.swift; sourceTree = "<group>"; };
 		AFCD74CC2B860BF4000DE6A8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -204,6 +206,14 @@
 				AF0366D62B9B849900676E33 /* InputView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		AF0366E22BA84D0E00676E33 /* Transferable */ = {
+			isa = PBXGroup;
+			children = (
+				AF0366E32BA84D2B00676E33 /* UIImage+Transferable.swift */,
+			);
+			path = Transferable;
 			sourceTree = "<group>";
 		};
 		AFCD74BE2B860BF4000DE6A8 = {
@@ -337,6 +347,7 @@
 		AFCD75312B8CA300000DE6A8 /* extenstions */ = {
 			isa = PBXGroup;
 			children = (
+				AF0366E22BA84D0E00676E33 /* Transferable */,
 				AFCD75322B8CA316000DE6A8 /* Color.swift */,
 			);
 			path = extenstions;
@@ -638,6 +649,7 @@
 				AFCD75602B92532E000DE6A8 /* SearchedItemRowCell.swift in Sources */,
 				AFCD75372B8CF3D9000DE6A8 /* Item.swift in Sources */,
 				AF0366E12BA1E3E300676E33 /* CreateGridImageView.swift in Sources */,
+				AF0366E42BA84D2B00676E33 /* UIImage+Transferable.swift in Sources */,
 				AFCD752E2B8C94A4000DE6A8 /* CategoryItemViewModel.swift in Sources */,
 				AFCD75332B8CA316000DE6A8 /* Color.swift in Sources */,
 				AFCD754F2B8F5845000DE6A8 /* CreateAdvertisementView.swift in Sources */,
