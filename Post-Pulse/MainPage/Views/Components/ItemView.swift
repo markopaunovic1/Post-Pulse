@@ -9,9 +9,8 @@ import SwiftUI
 
 struct ItemView: View {
     
-    @StateObject var itemViewModel = ItemViewModel()
+    @ObservedObject var itemViewModel = ItemViewModel()
     @State private var SelectedCategory: String?
-    
     
     var body: some View {
         NavigationView {
@@ -35,7 +34,7 @@ struct ItemView: View {
                                 .frame(width: 360, height: 200)
                                 .overlay(
                                     HStack(spacing: 0) {
-                                        Text(item.name)
+                                        Text(item.itemName)
                                             .fontWeight(.none)
                                             .scaledToFit()
                                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -70,6 +69,11 @@ struct ItemView: View {
             .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
         }
     }
+    
+    init() {
+        itemViewModel.fetchItems()
+    }
+    
 }
 
 struct ItemView_Previews: PreviewProvider {

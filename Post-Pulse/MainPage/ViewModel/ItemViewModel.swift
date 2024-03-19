@@ -6,14 +6,16 @@
 //
 
 import Foundation
+import FirebaseFirestore
+import Firebase
 import SwiftUI
 
 class ItemViewModel: ObservableObject {
     
     // For filtering search
-    @Published var allItems: [Item] = []
+    //@Published var allItems: [Item] = []
     
-    // for user to search
+    // For user to search
     @Published var searchText: String = ""
     
     // Properties for Image Viewer
@@ -21,6 +23,11 @@ class ItemViewModel: ObservableObject {
     @Published var selectedImageID: String = ""
     @Published var imageViewerOffset: CGSize = .zero
     @Published var backGroundOpacity:  Double = 1
+    
+    // For fetching user data
+    private var db = Firestore.firestore()
+    @Published var user : [User2] = []
+    @Published var item : [Item2] = []
     
     func onchange(value: CGSize) {
         imageViewerOffset = value
@@ -55,67 +62,105 @@ class ItemViewModel: ObservableObject {
         }
     }
     
-    init() {
-        self.allItems = showItem.items
-    }
+    //    init() {
+    //        self.allItems = showItem.items
+    //    }
     
     // Filteres through what user is searching for
-    var filteredItems: [Item] {
-        guard !searchText.isEmpty else { return allItems }
+    var filteredItems: [Item2] {
+        guard !searchText.isEmpty else { return item }
         
-        return allItems.filter { item in
-            item.name.lowercased().contains(searchText.lowercased())
+        return item.filter { item in
+            item.itemName.lowercased().contains(searchText.lowercased())
         }
     }
-}
-
-class showItem {
     
-    static let items = [
-    
-        Item(user: User(nameOfUser: "John Doe",
-                        phoneNumber: "123456789",
-                        emailAddress: "john@example.com",
-                        employment: "privat"),
-             
-             name: "PASSAT 2016",
-             image: ["passat sido",
-                     "passat rear",
-                     "passat interior",
-                     "passat profile",
-                     "passat open hood",
-                     "passat rim",
-                     "passat seats"],
-             description: "*KXG882*, ABS-bromsar, ACC/2-zons Klimatanläggning, Adaptiv farthållare, Airbag förare, Airbag passagerare fram, Airbag passagerare urkopplingsbar, Android Auto, Antisladd, Antispinn, Apple carplay, AUX-ingång, AWD, Backkamera, Bluetooth, CD/Radio, Dieselvärmare fjärrstyrd, Dragkrok utfällbar, Elbaklucka, Elhissar fram  Skinnklädsel, Sommardäck på 18 aluminiumfälgar, Start-/stoppfunktion, Svensksåld, Sätesvärme fram, Tonade rutor, USB-ingång",
-                 price: "1000000",
-             category: .fordon),
+    func fetchItems() {
         
-        Item(user: User(nameOfUser: "John Doe",
-                        phoneNumber: "123456789",
-                        emailAddress: "john@example.com",
-                        employment: "Företag"),
-             
-             name: "Guitar",
-             image: ["guitar side",
-                     "guitar back",
-                     "guitar close front",
-                     "passat sido",
-                     "passat rear"],
-             description: "En väldigt fin gitarr som är 2 år gammal, spelat några gånger bara, utmärkt ljud",
-                 price: "2299",
-             category: .fritidHobby),
-        
-        Item(user: User(nameOfUser: "John Doe",
-                        phoneNumber: "123456789",
-                        emailAddress: "john@example.com",
-                        employment: "Företag"),
-             
-             name: "Guitar",
-             image: ["guitar side",
-                     "guitar back",
-                     "guitar close front"],
-             description: "En väldigt fin gitarr som är 2 år gammal, spelat några gånger bara, utmärkt ljud",
-                 price: "2299",
-             category: .fritidHobby)
-    ]
+        let db = Firestore.firestore()
+     
+        db.collection("allItems").getDocuments { snapshot, error in
+            
+            if let error = error {
+                // handle error
+                print("Error getting documents: \(error)")
+                return
+            }
+            
+            if let snapshot = snapshot {
+                
+                self.item = snapshot.documents.map { itemData in
+                    
+                    return Item2(
+                        id: UUID(),
+                        itemName: itemData["itemName"] as? String ?? "",
+                        image: itemData["imageURLs"] as? [String] ?? [],
+                        description: itemData["description"] as? String ?? "",
+                        price: itemData["price"] as? String ?? "",
+                        category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt
+                    )
+                }
+            }
+        }
+    }
+//        db.collection("Users").getDocuments { snapshot, error in
+//            // check for error
+//            if let error = error {
+//                // handle error
+//                print("Error getting documents: \(error)")
+//                return
+//            }
+//
+//            // no errors
+//            if let snapshot = snapshot {
+//                // Update the property in the main thread
+//                DispatchQueue.main.async {
+//                    // Initialize an array to hold items
+//                    var allItems: [Item2] = []
+//
+//                    // Iterate through each document in the "Users" collection
+//                    for document in snapshot.documents {
+//                        let userId = document.documentID
+//
+//                        // Get a reference to the "items" collection within the user document
+//                        let itemsCollectionRef = self.db.collection("Users").document(userId).collection("Items")
+//
+//                        // Fetch documents from the "items" collection
+//                        itemsCollectionRef.getDocuments { itemSnapshot, itemError in
+//                            // Check for errors
+//                            if let itemError = itemError {
+//                                print("Error getting items: \(itemError)")
+//                                return
+//                            }
+//
+//                            // Iterate through each document in the "items" collection
+//                            if let itemSnapshot = itemSnapshot {
+//                                for itemDocument in itemSnapshot.documents {
+//                                    // Extract item data
+//                                    let itemId = itemDocument.documentID
+//                                    let itemData = itemDocument.data()
+//
+//                                    // Create an Item2 instance from the fetched data
+//                                    let newItem = Item2(
+//                                        id: UUID(),
+//                                        itemName: itemData["itemName"] as? String ?? "",
+//                                        image: itemData["imageURLs"] as? [String] ?? [],
+//                                        description: itemData["description"] as? String ?? "",
+//                                        price: itemData["price"] as? String ?? "",
+//                                        category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt
+//                                    )
+//
+//                                    // Append the new item to the array
+//                                    allItems.append(newItem)
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    // Assign allItems to the property after all asynchronous operations complete
+//                    self.item = allItems
+//                }
+//            }
+//        }
+//    }
 }
