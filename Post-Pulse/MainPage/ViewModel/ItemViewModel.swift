@@ -63,10 +63,6 @@ class ItemViewModel: ObservableObject {
         }
     }
     
-    //    init() {
-    //        self.allItems = showItem.items
-    //    }
-    
     // Filteres through what user is searching for
     var filteredItems: [Item2] {
         guard !searchText.isEmpty else { return item }
@@ -76,10 +72,11 @@ class ItemViewModel: ObservableObject {
         }
     }
     
+    // fetch all items from all users
     func fetchItems() {
         
         let db = Firestore.firestore()
-     
+        
         db.collection("allItems").getDocuments { snapshot, error in
             
             if let error = error {
@@ -104,64 +101,4 @@ class ItemViewModel: ObservableObject {
             }
         }
     }
-//        db.collection("Users").getDocuments { snapshot, error in
-//            // check for error
-//            if let error = error {
-//                // handle error
-//                print("Error getting documents: \(error)")
-//                return
-//            }
-//
-//            // no errors
-//            if let snapshot = snapshot {
-//                // Update the property in the main thread
-//                DispatchQueue.main.async {
-//                    // Initialize an array to hold items
-//                    var allItems: [Item2] = []
-//
-//                    // Iterate through each document in the "Users" collection
-//                    for document in snapshot.documents {
-//                        let userId = document.documentID
-//
-//                        // Get a reference to the "items" collection within the user document
-//                        let itemsCollectionRef = self.db.collection("Users").document(userId).collection("Items")
-//
-//                        // Fetch documents from the "items" collection
-//                        itemsCollectionRef.getDocuments { itemSnapshot, itemError in
-//                            // Check for errors
-//                            if let itemError = itemError {
-//                                print("Error getting items: \(itemError)")
-//                                return
-//                            }
-//
-//                            // Iterate through each document in the "items" collection
-//                            if let itemSnapshot = itemSnapshot {
-//                                for itemDocument in itemSnapshot.documents {
-//                                    // Extract item data
-//                                    let itemId = itemDocument.documentID
-//                                    let itemData = itemDocument.data()
-//
-//                                    // Create an Item2 instance from the fetched data
-//                                    let newItem = Item2(
-//                                        id: UUID(),
-//                                        itemName: itemData["itemName"] as? String ?? "",
-//                                        image: itemData["imageURLs"] as? [String] ?? [],
-//                                        description: itemData["description"] as? String ?? "",
-//                                        price: itemData["price"] as? String ?? "",
-//                                        category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt
-//                                    )
-//
-//                                    // Append the new item to the array
-//                                    allItems.append(newItem)
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    // Assign allItems to the property after all asynchronous operations complete
-//                    self.item = allItems
-//                }
-//            }
-//        }
-//    }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GridImageView: View {
     
-    @EnvironmentObject var theItem: ItemViewModel
+    @EnvironmentObject var itemViewModel: ItemViewModel
     
     let item: Item2
     let index: Int
@@ -22,8 +22,8 @@ struct GridImageView: View {
     var body: some View {
         Button {
             withAnimation(.easeInOut) {
-                theItem.selectedImageID = item.imageURL[index]
-                theItem.showImageViewer.toggle()
+                itemViewModel.selectedImageID = item.imageURL[index]
+                itemViewModel.showImageViewer.toggle()
                 
             }
         } label: {
@@ -88,7 +88,7 @@ struct GridImageView: View {
 
 struct GridImageView_Previews: PreviewProvider {
     static var previews: some View {
-        SellerAdvertisementView(item: Item2(id: UUID(), itemName: "Marko", imageURL: ["aasd"], description: "asd", price: "123", category: .bostad))
+        SellerAdvertisementView(item: Item2(id: UUID(), itemName: "Marko", imageURL: ["https://firebasestorage.googleapis.com:443/v0/b/post-pulse-52f96.appspot.com/o/images%2FB1059BD4-EC9A-4E1B-91AC-313249ED41EE.jpg?alt=media&token=95da230a-9770-4718-b6cc-ea4f5f0c09a3", "https://example.com/image2.jpg", "https://firebasestorage.googleapis.com:443/v0/b/post-pulse-52f96.appspot.com/o/images%2F2B97D72E-931F-4B80-8CF3-A2EF4778723D.jpg?alt=media&token=36816ceb-e1ea-4747-b5f5-4eabc1b6f8c9"], description: "asd", price: "123", category: .bostad))
             .environmentObject(ItemViewModel())
     }
 }
