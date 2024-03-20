@@ -24,10 +24,16 @@ struct ItemView: View {
                         NavigationLink(destination: SellerAdvertisementView(item: item).environmentObject(itemViewModel)) {
                             VStack {
                                 TabView {
-                                    ForEach(item.image, id: \.self) { imageName in
-                                        Image(imageName)
-                                            .resizable()
-                                            .scaledToFill()
+                                    ForEach(item.imageURL, id: \.self) { imageName in
+                                        let imageURL = URL(string: imageName) ?? URL(string: "")
+                                        
+                                        AsyncImage(url: imageURL) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                        } placeholder: {
+                                            
+                                        }
                                     }
                                 }
                                 .tabViewStyle(.page(indexDisplayMode: .never))
@@ -68,12 +74,10 @@ struct ItemView: View {
             }
             .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
         }
+        .onAppear() {
+                itemViewModel.fetchItems()
+        }
     }
-    
-    init() {
-        itemViewModel.fetchItems()
-    }
-    
 }
 
 struct ItemView_Previews: PreviewProvider {

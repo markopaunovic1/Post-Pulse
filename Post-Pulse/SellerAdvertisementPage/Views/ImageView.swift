@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ImageView: View {
     
-    @EnvironmentObject var theItem: ItemViewModel
+    @EnvironmentObject var itemViewModel: ItemViewModel
     @GestureState var draggingOffset: CGSize = .zero
     
     let item: Item2
@@ -17,22 +17,22 @@ struct ImageView: View {
     var body: some View {
         ZStack {
             Color.black
-                .opacity(theItem.backGroundOpacity)
+                .opacity(itemViewModel.backGroundOpacity)
                 .ignoresSafeArea()
             
-            TabView(selection: $theItem.selectedImageID) {
-                ForEach(item.image, id: \.self) { image in
+            TabView(selection: $itemViewModel.selectedImageID) {
+                ForEach(item.imageURL, id: \.self) { image in
                     Image(image)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .offset(y: theItem.imageViewerOffset.height)
+                        .offset(y: itemViewModel.imageViewerOffset.height)
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
             .overlay(
                 Button(action: {
                     withAnimation(.default) {
-                        theItem.showImageViewer.toggle()
+                        itemViewModel.showImageViewer.toggle()
                     }
                 }, label: {
                     Image(systemName: "xmark")
@@ -48,16 +48,16 @@ struct ImageView: View {
         .gesture(DragGesture().updating($draggingOffset, body: { (value, outValue, _) in
          
             outValue = value.translation
-            theItem.onchange(value: draggingOffset)
+            itemViewModel.onchange(value: draggingOffset)
             
-        }).onEnded(theItem.onEnd(value:))
+        }).onEnded(itemViewModel.onEnd(value:))
         )
     }
 }
 
 struct ImageView_Previews: PreviewProvider {
     static var previews: some View {
-        SellerAdvertisementView(item: Item2(id: UUID(), itemName: "Marko", image: ["aasd"], description: "asd", price: "123", category: .bostad))
+        SellerAdvertisementView(item: Item2(id: UUID(), itemName: "Marko", imageURL: ["aasd"], description: "asd", price: "123", category: .bostad))
             .environmentObject(ItemViewModel())
     }
 }

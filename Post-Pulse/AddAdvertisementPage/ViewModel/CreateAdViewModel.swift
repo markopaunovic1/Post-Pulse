@@ -25,7 +25,7 @@ class CreateAdViewModel: ObservableObject {
         for image in images {
             dispatchGroup.enter()
 
-            let imageData = image.jpegData(compressionQuality: 0.8)
+            let imageData = image.jpegData(compressionQuality: 1)
 
             guard let imageData = imageData else {
                 dispatchGroup.leave()

@@ -19,7 +19,7 @@ struct SellerAdvertisementView: View {
         ScrollView {
             VStack(alignment: .center) {
                 LazyVGrid(columns: columns, alignment: .leading, spacing: 0) {
-                    ForEach(item.image.indices, id: \.self) { index in
+                    ForEach(item.imageURL.indices, id: \.self) { index in
                         GridImageView(index: index, item: item)
                     }
                 }
@@ -56,7 +56,7 @@ struct SellerAdvertisementView: View {
         .overlay(
             ZStack {
                 if theItem.showImageViewer {
-                    ImageView(item: Item2(id: UUID(), itemName: "Marko", image: ["aasd"], description: "asd", price: "123", category: .bostad))
+                    ImageView(item: Item2(id: UUID(), itemName: "Marko", imageURL: ["aasd"], description: "asd", price: "123", category: .bostad))
                 }
             }
         )
@@ -67,7 +67,7 @@ struct SellerAdvertisementView: View {
 
 struct SellerAdvertisementView_Previews: PreviewProvider {
     static var previews: some View {
-        SellerAdvertisementView(item: Item2(id: UUID(), itemName: "Marko", image: ["aasd"], description: "asd", price: "123", category: .bostad))
+        SellerAdvertisementView(item: Item2(id: UUID(), itemName: "Marko", imageURL: ["aasd"], description: "asd", price: "123", category: .bostad))
             .environmentObject(ItemViewModel())
     }
 }

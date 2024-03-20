@@ -18,7 +18,7 @@ struct User2: Identifiable, Codable {
 struct Item2: Identifiable, Codable {
     let id: UUID
     let itemName: String
-    let image: [String]
+    let imageURL: [String]
     let description: String
     let price: String
     let category: TypeOfItem
