@@ -67,10 +67,12 @@ struct CreateAdvertisementView: View {
                         if !itemName.isEmpty && !price.isEmpty && !description.isEmpty {
                             Task {
                                 if let userId = authViewModel.currentUser?.id {
-                                    createAdViewModel.uploadItem(itemName: itemName, price: price, description: description, userId: userId, images: createAdViewModel.selectedImages)
+                                    createAdViewModel.uploadItem(itemId: UUID().uuidString, itemName: itemName, price: price, description: description, userId: userId, images: createAdViewModel.selectedImages)
                                 }
                             }
                             self.handleInputAlert = .first
+                            
+                            
                         } else {
                             self.handleInputAlert = .second
                         }

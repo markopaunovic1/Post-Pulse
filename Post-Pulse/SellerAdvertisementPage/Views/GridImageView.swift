@@ -9,13 +9,12 @@ import SwiftUI
 
 struct GridImageView: View {
     
-    @EnvironmentObject var theItem: ItemViewModel
-
-
-    let item: Item
+    @EnvironmentObject var itemViewModel: ItemViewModel
+    
+    let item: Item2
     let index: Int
     
-    init(index: Int, item: Item) {
+    init(index: Int, item: Item2) {
         self.item = item
         self.index = index
     }
@@ -23,22 +22,35 @@ struct GridImageView: View {
     var body: some View {
         Button {
             withAnimation(.easeInOut) {
-                theItem.selectedImageID = item.image[index]
-                theItem.showImageViewer.toggle()
+                itemViewModel.selectedImageID = item.imageURL[index]
+                itemViewModel.showImageViewer.toggle()
                 
             }
         } label: {
             ZStack {
                 if index <= 3 {
-                    let imageName = item.image[index]
-                    Image(imageName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: getWidth(index: index), height: 120)
-                        .cornerRadius(0)
+                    let imageURL = URL(string: item.imageURL[index]) ?? URL(string: "")
+                    AsyncImage(url: imageURL) { phase in
+                        switch phase {
+                        case .empty:
+                            // Placeholder or loading view
+                            ProgressView()
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: getWidth(index: index), height: 120)
+                                .cornerRadius(0)
+                        case .failure(let error):
+                            // Placeholder for failure
+                            Text("Failed to load image \(error.localizedDescription)")
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
                 }
                 
-                let imageName = item.image
+                let imageName = item.imageURL
                 if imageName.count > 4 && index == 3 {
                     RoundedRectangle(cornerRadius: 0)
                         .fill(Color.black.opacity(0.5))
@@ -51,12 +63,11 @@ struct GridImageView: View {
                 }
             }
         }
-
     }
     
     func getWidth(index: Int)->CGFloat {
         
-        let imageName = item.image
+        let imageName = item.imageURL
         let width = getRect().width
         
         if imageName.count % 2 == 0 {
@@ -72,20 +83,20 @@ struct GridImageView: View {
         }
     }
 }
-    
-    
-    
-    struct GridImageView_Previews: PreviewProvider {
-        static var previews: some View {
-            SellerAdvertisementView(item: Item(user: User(nameOfUser: "John Doe", phoneNumber: "123456789", emailAddress: "john@example.com", employment: "Privat"), name: "Passat 2016", image: ["passat profile", "passat seats", "passat rim", "passat sido", "passat rear"], description: "*KXG882*, ABS-bromsar, ACC/2-zons Klimatanläggning, Adaptiv farthållare, Airbag förare, Airbag passagerare fram, Airbag passagerare urkopplingsbar, Android Auto, Antisladd, Antispinn, Apple carplay, AUX-ingång, AWD, Backkamera, Bluetooth, CD/Radio, Dieselvärmare fjärrstyrd, Dragkrok utfällbar, Elbaklucka, Elhissar fram  Skinnklädsel, Sommardäck på 18 aluminiumfälgar, Start-/stoppfunktion, Svensksåld, Sätesvärme fram, Tonade rutor, USB-ingång", price: "999000", category: .fordon))
-                .environmentObject(ItemViewModel())
-        }
+
+
+
+struct GridImageView_Previews: PreviewProvider {
+    static var previews: some View {
+        SellerAdvertisementView(item: Item2(id: UUID(), itemName: "Marko", imageURL: ["https://firebasestorage.googleapis.com:443/v0/b/post-pulse-52f96.appspot.com/o/images%2FB1059BD4-EC9A-4E1B-91AC-313249ED41EE.jpg?alt=media&token=95da230a-9770-4718-b6cc-ea4f5f0c09a3", "https://example.com/image2.jpg", "https://firebasestorage.googleapis.com:443/v0/b/post-pulse-52f96.appspot.com/o/images%2F2B97D72E-931F-4B80-8CF3-A2EF4778723D.jpg?alt=media&token=36816ceb-e1ea-4747-b5f5-4eabc1b6f8c9"], description: "asd", price: "123", category: .bostad))
+            .environmentObject(ItemViewModel())
     }
+}
 
 
 extension View {
-  func getRect() -> CGRect {
-    
-      return UIScreen.main.bounds
-  }
+    func getRect() -> CGRect {
+        
+        return UIScreen.main.bounds
+    }
 }
