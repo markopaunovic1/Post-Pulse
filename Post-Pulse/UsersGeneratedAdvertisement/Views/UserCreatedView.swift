@@ -1,27 +1,26 @@
 //
-//  SwiftUIView.swift
+//  UserCreatedViews.swift
 //  Post-Pulse
 //
-//  Created by Marko Paunovic on 2024-02-23.
+//  Created by Marko Paunovic on 2024-03-21.
 //
 
 import SwiftUI
 
-struct ItemView: View {
+struct UserCreatedView: View {
     
     @ObservedObject var itemViewModel = ItemViewModel()
-    @State private var SelectedCategory: String?
+    @EnvironmentObject var authViewModel: AuthViewModel
+    
+    let currentUser: User2
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
-                    SearchBarView(searchText: $itemViewModel.searchText)
                     
-                    CategoryItemView(selectedCategory: $SelectedCategory)
-                    
-                    ForEach(itemViewModel.filteredItems) { item in
-                        NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: "1", fullname: "1", email: "1", employment: "1", phoneNumber: "1")).environmentObject(itemViewModel)) {
+                    ForEach(itemViewModel.item) { item in
+                        NavigationLink(destination: SellerAdvertisementView(item: item, user: currentUser).environmentObject(itemViewModel)) {
                             VStack {
                                 TabView {
                                     ForEach(item.imageURL, id: \.self) { imageName in
@@ -32,7 +31,7 @@ struct ItemView: View {
                                                 .resizable()
                                                 .scaledToFill()
                                         } placeholder: {
-                                            
+                                            ProgressView()
                                         }
                                     }
                                 }
@@ -75,13 +74,13 @@ struct ItemView: View {
             .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
         }
         .onAppear() {
-                itemViewModel.fetchItems()
+            itemViewModel.fetchOnlyUsersOwnAd(userId: currentUser.id)
         }
     }
 }
 
-struct ItemView_Previews: PreviewProvider {
+struct UserCreatedViews_Previews: PreviewProvider {
     static var previews: some View {
-        ItemView()
+        UserCreatedView(currentUser: User2(id: "id", fullname: "fullname", email: "email", employment: "employment", phoneNumber: "phoneNumber"))
     }
 }

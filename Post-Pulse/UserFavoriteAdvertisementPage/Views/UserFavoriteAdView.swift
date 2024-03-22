@@ -8,8 +8,78 @@
 import SwiftUI
 
 struct UserFavoriteAdView: View {
+    
+    @EnvironmentObject var itemViewModel: ItemViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var favoriteViewModel: FavoriteViewModel
+    
+    @State private var favourites: [Item2] = []
+    
     var body: some View {
-        Text("This is UserFavoriteAdView")
+        NavigationView {
+            ScrollView {
+                VStack {
+                    
+                    ForEach(favourites, id: \.self) { item in
+                        NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: "1", fullname: "1", email: "1", employment: "1", phoneNumber: "1")).environmentObject(itemViewModel)) {
+                            VStack {
+                                TabView {
+                                    ForEach(item.imageURL, id: \.self) { imageName in
+                                        let imageURL = URL(string: imageName) ?? URL(string: "")
+                                        
+                                        AsyncImage(url: imageURL) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                        } placeholder: {
+                                            ProgressView()
+                                                .scaledToFit()
+                                        }
+                                    }
+                                }
+                                .tabViewStyle(.page(indexDisplayMode: .never))
+                                .frame(width: 360, height: 200)
+                                .overlay(
+                                    HStack(spacing: 0) {
+                                        Text(item.itemName)
+                                            .fontWeight(.none)
+                                            .scaledToFit()
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(8)
+                                            .padding(.leading, 4)
+                                            .font(.system(size: 20))
+                                            .foregroundColor(.white)
+                                            .background(Color(white: 0.4, opacity: 0.7))
+                                            .frame(maxHeight: .infinity, alignment: .bottom)
+                                        
+                                        Text("\(item.price):-")
+                                            .fontWeight(.none)
+                                            .scaledToFit()
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                            .padding(8)
+                                            .padding(.trailing, 4)
+                                            .font(.system(size: 20))
+                                            .foregroundColor(.white)
+                                            .background(Color(white: 0.4, opacity: 0.7))
+                                            .frame(maxHeight: .infinity, alignment: .bottom)
+                                    }
+                                )
+                            }
+                            .background(Color.white)
+                            .cornerRadius(15)
+                            .shadow(color: .gray, radius: 4, x: 4, y: 4)
+                            .padding(7)
+                        }
+                    }
+                    .onAppear() {
+                        favoriteViewModel.fetchUsersFavoriteAd()
+                    }
+                }
+            }
+        }
+        
+        .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
+
     }
 }
 

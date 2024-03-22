@@ -13,7 +13,7 @@ import SwiftUI
 class ItemViewModel: ObservableObject {
     
     // For filtering search
-    //@Published var allItems: [Item] = []
+    //@Published var Ads: [Item] = []
     
     // For user to search
     @Published var searchText: String = ""
@@ -25,7 +25,7 @@ class ItemViewModel: ObservableObject {
     @Published var backGroundOpacity:  Double = 1
     
     // For fetching user data
-    private var db = Firestore.firestore()
+    var db = Firestore.firestore()
     @Published var user : [User2] = []
     @Published var item : [Item2] = []
     
@@ -77,7 +77,7 @@ class ItemViewModel: ObservableObject {
         
         let db = Firestore.firestore()
         
-        db.collection("allItems").getDocuments { snapshot, error in
+        db.collection("Ads").getDocuments { snapshot, error in
             
             if let error = error {
                 // handle error
@@ -90,7 +90,7 @@ class ItemViewModel: ObservableObject {
                 self.item = snapshot.documents.map { itemData in
                     
                     return Item2(
-                        id: UUID(),
+                        id: itemData["itemId"] as? String ?? "",
                         itemName: itemData["itemName"] as? String ?? "",
                         imageURL: itemData["imageURLs"] as? [String] ?? [],
                         description: itemData["description"] as? String ?? "",
@@ -102,3 +102,4 @@ class ItemViewModel: ObservableObject {
         }
     }
 }
+

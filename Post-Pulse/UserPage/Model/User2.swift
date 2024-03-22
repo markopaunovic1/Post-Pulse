@@ -15,8 +15,8 @@ struct User2: Identifiable, Codable {
     let phoneNumber: String
 }
 
-struct Item2: Identifiable, Codable {
-    let id: UUID
+struct Item2: Identifiable, Codable, Hashable {
+    let id: String
     let itemName: String
     let imageURL: [String]
     let description: String
