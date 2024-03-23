@@ -13,14 +13,12 @@ struct UserFavoriteAdView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var favoriteViewModel: FavoriteViewModel
     
-    @State private var favourites: [Item2] = []
-    
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
                     
-                    ForEach(favourites, id: \.self) { item in
+                    ForEach(favoriteViewModel.additionalData) { item in
                         NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: "1", fullname: "1", email: "1", employment: "1", phoneNumber: "1")).environmentObject(itemViewModel)) {
                             VStack {
                                 TabView {
@@ -71,11 +69,12 @@ struct UserFavoriteAdView: View {
                             .padding(7)
                         }
                     }
-                    .onAppear() {
-                        favoriteViewModel.fetchUsersFavoriteAd()
-                    }
+                    
                 }
             }
+        }
+        .onAppear() {
+            favoriteViewModel.fetchUsersFavoriteAd()
         }
         
         .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))

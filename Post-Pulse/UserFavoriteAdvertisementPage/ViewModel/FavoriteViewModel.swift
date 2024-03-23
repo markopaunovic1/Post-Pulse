@@ -14,56 +14,13 @@ class FavoriteViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User2?
     
-    @Published var item : [Item2] = []
-
+    @Published var additionalData : [Item2] = []
+    
     
     init() {
         // Caches the users session until user is logged out
         self.userSession = Auth.auth().currentUser
     }
-    
-//    func updateFavoriteItems() {
-//        guard let userID = userSession?.uid else {
-//            print("No user is currently logged in")
-//            return
-//        }
-//        
-//        // Fetch items from "Ads" collection
-//        fetchItems { items in
-//            // Now you have the items, proceed to update the favoriteItems sub-collection for the user
-//            let db = Firestore.firestore()
-//            let userRef = db.collection("Users").document(userID)
-//            let favoriteItemsRef = userRef.collection("favoriteItems")
-//            
-//            // Delete existing favorite items
-//            favoriteItemsRef.getDocuments { (snapshot, error) in
-//                if let error = error {
-//                    print("Error getting documents: \(error)")
-//                    return
-//                }
-//                
-//                for document in snapshot!.documents {
-//                    favoriteItemsRef.document(document.documentID).delete()
-//                }
-//                
-//                // Add new favorite items
-//                for item in items {
-//                    do {
-//                        let itemData = try Firestore.Encoder().encode(item)
-//                        favoriteItemsRef.addDocument(data: itemData) { error in
-//                            if let error = error {
-//                                print("Error adding document: \(error)")
-//                            } else {
-//                                print("Document added with ID: \(item.id)")
-//                            }
-//                        }
-//                    } catch {
-//                        print("Error encoding item \(item.id): \(error)")
-//                    }
-//                }
-//            }
-//        }
-//    }
     
     func addFavoriteItemToUser(userId: String, itemId: String) {
         
@@ -87,34 +44,66 @@ class FavoriteViewModel: ObservableObject {
         }
     }
     
-    
     func fetchUsersFavoriteAd() {
-        guard let itemId = userSession?.uid else {
-            print("Item ID is missing")
+        guard let userId = userSession?.uid else {
+            print("User ID is missing")
             return
         }
         
         let db = Firestore.firestore()
         
-        db.collection("Favourites").whereField("userId", isEqualTo: userSession?.uid ?? "")
+        db.collection("Favourites")
+            .whereField("userId", isEqualTo: userId)
             .getDocuments { snapshot, error in
                 if let error = error {
                     print("Error getting documents: \(error.localizedDescription)")
                     return
                 }
-                
                 if let snapshot = snapshot {
+                    var fetchedItems : [Item2] = []
+                    
+                    let dispatchGroup = DispatchGroup()
+                    
                     for document in snapshot.documents {
-                        let data = document.data()
-                        if data["userId"] is String {
-                            print("Item ID: \(data)")
+                        guard let itemId = document.data()["itemId"] as? String else {
+                            continue
+                        }
+                        
+                        dispatchGroup.enter()
+                        
+                        // Fetch additional data from Ads collection based on itemId
+                        db.collection("Ads").document(itemId).getDocument { snapshotData, error in
+                            defer {
+                                dispatchGroup.leave()
+                            }
+                            
+                            if let error = error {
+                                print("Error fetching ad document: \(error.localizedDescription)")
+                                return
+                            }
+                            
+                            if let snapshotItem = snapshotData, let itemData = snapshotItem.data() {
+                                
+                                let item = Item2(
+                                    id: itemData["itemId"] as? String ?? "",
+                                    itemName: itemData["itemName"] as? String ?? "",
+                                    imageURL: itemData["imageURLs"] as? [String] ?? [],
+                                    description: itemData["description"] as? String ?? "",
+                                    price: itemData["price"] as? String ?? "",
+                                    category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt
+                                )
+                                fetchedItems.append(item)
+                                print("Successfully fetched additional item \(item)")
+                            } else {
+                                print("DEBUG: Failed to find additional data for itemId: \(itemId)")
+                            }
                         }
                     }
+                    dispatchGroup.notify(queue: .main) {
+                        self.additionalData = fetchedItems
+                    }
                 }
-                
-                db.collection("Ads").document()
-                
-                
             }
     }
 }
+

@@ -70,13 +70,6 @@ struct SellerAdvertisementView: View {
                 Divider()
                 
                 SellerCardInfoView().environmentObject(AuthViewModel())
-                
-                Button {
-                    favoriteViewModel.fetchUsersFavoriteAd()
-                } label: {
-                    Text("fetchUser")
-                }
-
             }
             .padding()
         }

@@ -21,7 +21,7 @@ struct ItemView: View {
                     CategoryItemView(selectedCategory: $SelectedCategory)
                     
                     ForEach(itemViewModel.filteredItems) { item in
-                        NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: "1", fullname: "1", email: "1", employment: "1", phoneNumber: "1")).environmentObject(itemViewModel)) {
+                        NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: "1", fullname: "1", email: "1", employment: "1", phoneNumber: "")).environmentObject(itemViewModel)) {
                             VStack {
                                 TabView {
                                     ForEach(item.imageURL, id: \.self) { imageName in
@@ -32,7 +32,7 @@ struct ItemView: View {
                                                 .resizable()
                                                 .scaledToFill()
                                         } placeholder: {
-                                            
+                                            EmptyView()
                                         }
                                     }
                                 }
