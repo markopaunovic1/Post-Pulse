@@ -15,7 +15,7 @@ class CreateAdViewModel: ObservableObject {
     
     @Published var selectedImages : [UIImage] = []
     
-    func uploadItem(itemId: String, itemName: String, price: String, description: String, userId: String, images: [UIImage]) {
+    func uploadItem(itemId: String, itemName: String, price: Int, description: String, userId: String, images: [UIImage], dateCreated: Date) {
         let db = Firestore.firestore()
         let dispatchGroup = DispatchGroup()
 
@@ -64,6 +64,7 @@ class CreateAdViewModel: ObservableObject {
 
         // Notify when all images are uploaded and URLs are retrieved
         dispatchGroup.notify(queue: .main) {
+                    
             
             // Add item data to Firestore with image URLs
             let itemData: [String: Any] = [
@@ -72,11 +73,12 @@ class CreateAdViewModel: ObservableObject {
                 "itemName": itemName,
                 "price": price,
                 "description": description,
-                "imageURLs": imageURLs
+                "imageURLs": imageURLs,
+                "dateCreated": dateCreated
             ]
 
-            // Add document to Firestore
-            db.collection("allItems").document(itemId).setData(itemData) { error in
+            // Add document to Ads Firestore
+            db.collection("Ads").document(itemId).setData(itemData) { error in
                 if let error = error {
                     print("Error adding document: \(error)")
                 } else {

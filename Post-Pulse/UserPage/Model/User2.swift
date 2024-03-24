@@ -15,13 +15,14 @@ struct User2: Identifiable, Codable {
     let phoneNumber: String
 }
 
-struct Item2: Identifiable, Codable {
-    let id: UUID
+struct Item2: Identifiable, Codable, Hashable {
+    let id: String
     let itemName: String
     let imageURL: [String]
     let description: String
-    let price: String
+    let price: Int
     let category: TypeOfItem
+    let dateCreated: String
     
     enum TypeOfItem: String, Codable {
         case fordon = "fordon"

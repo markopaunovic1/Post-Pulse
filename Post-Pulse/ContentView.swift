@@ -28,7 +28,7 @@ struct ContentView: View {
                                 Label("Lägg till", systemImage: "plus.square")
                             }
                         
-                        UserFavoriteAdView()
+                        UserFavoriteAdView().environmentObject(FavoriteViewModel())
                             .tabItem() {
                                 Label("Favoriter", systemImage: "heart.fill")
                             }

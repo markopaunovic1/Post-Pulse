@@ -1,24 +1,26 @@
 //
-//  UserFavoriteAdView.swift
+//  UserCreatedViews.swift
 //  Post-Pulse
 //
-//  Created by Marko Paunovic on 2024-02-28.
+//  Created by Marko Paunovic on 2024-03-21.
 //
 
 import SwiftUI
 
-struct UserFavoriteAdView: View {
+struct UserCreatedView: View {
     
-    @EnvironmentObject var itemViewModel: ItemViewModel
+    @ObservedObject var itemViewModel = ItemViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
-    @EnvironmentObject var favoriteViewModel: FavoriteViewModel
+    
+    let currentUser: User2
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack {
-                    ForEach(favoriteViewModel.additionalData) { item in
-                        NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: "1", fullname: "1", email: "1", employment: "1", phoneNumber: "1")).environmentObject(itemViewModel)) {
+                    
+                    ForEach(itemViewModel.item) { item in
+                        NavigationLink(destination: SellerAdvertisementView(item: item, user: currentUser).environmentObject(itemViewModel)) {
                             VStack {
                                 TabView {
                                     ForEach(item.imageURL, id: \.self) { imageName in
@@ -30,7 +32,6 @@ struct UserFavoriteAdView: View {
                                                 .scaledToFill()
                                         } placeholder: {
                                             ProgressView()
-                                                .scaledToFit()
                                         }
                                     }
                                 }
@@ -62,11 +63,10 @@ struct UserFavoriteAdView: View {
                                     }
                                 )
                             }
+                            .background(Color.white)
                             .cornerRadius(15)
                             .shadow(color: .gray, radius: 4, x: 4, y: 4)
                             .padding(7)
-                            .padding(.leading, 10)
-                            .padding(.trailing, 10)
                         }
                     }
                 }
@@ -74,13 +74,13 @@ struct UserFavoriteAdView: View {
             .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
         }
         .onAppear() {
-            favoriteViewModel.fetchUsersFavoriteAd()
+            itemViewModel.fetchOnlyUsersOwnAd(userId: currentUser.id)
         }
     }
 }
 
-struct UserFavoriteAdView_Previews: PreviewProvider {
+struct UserCreatedViews_Previews: PreviewProvider {
     static var previews: some View {
-        UserFavoriteAdView().environmentObject(FavoriteViewModel())
+        UserCreatedView(currentUser: User2(id: "id", fullname: "fullname", email: "email", employment: "employment", phoneNumber: "phoneNumber"))
     }
 }

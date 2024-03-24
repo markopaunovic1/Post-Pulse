@@ -12,9 +12,6 @@ import SwiftUI
 
 class ItemViewModel: ObservableObject {
     
-    // For filtering search
-    //@Published var allItems: [Item] = []
-    
     // For user to search
     @Published var searchText: String = ""
     
@@ -24,8 +21,10 @@ class ItemViewModel: ObservableObject {
     @Published var imageViewerOffset: CGSize = .zero
     @Published var backGroundOpacity:  Double = 1
     
+    @Published var selectedOrder : SortOptions? = nil
+    
     // For fetching user data
-    private var db = Firestore.firestore()
+    var db = Firestore.firestore()
     @Published var user : [User2] = []
     @Published var item : [Item2] = []
     
@@ -72,12 +71,101 @@ class ItemViewModel: ObservableObject {
         }
     }
     
+    enum SortOptions: String, CaseIterable {
+        case noFilter = "Inget"
+        case priceHigh = "Dyrast"
+        case priceLow = "Billigast"
+        case oldest = "Äldst"
+        case newest = "Senaste"
+        case alfabet = "A-Ö"
+    }
+    
+    func filterSelected(option: SortOptions) {
+        switch option {
+        case .priceHigh:
+            getAllAdsSortedByPrice(descending: true)
+
+            break
+        case .priceLow:
+            getAllAdsSortedByPrice(descending: false)
+            break
+            
+        case .oldest:
+            getAllAdsSortedByDate(descending: false)
+            break
+            
+        case .newest:
+            getAllAdsSortedByDate(descending: true)
+            break
+            
+        case .alfabet:
+            break
+            
+        case .noFilter:
+            fetchItems()
+        }
+    }
+    
+    func getAllAdsSortedByDate(descending: Bool) {
+        db.collection("Ads").order(by: "dateCreated", descending: descending)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("DEBUG: Error getting documents by date: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let snapshot = snapshot {
+                    self.item = snapshot.documents.map { itemData in
+                        
+                        return Item2(
+                            id: itemData["itemId"] as? String ?? "",
+                            itemName: itemData["itemName"] as? String ?? "",
+                            imageURL: itemData["imageURLs"] as? [String] ?? [],
+                            description: itemData["description"] as? String ?? "",
+                            price: itemData["price"] as? Int ?? 0,
+                            category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt,
+                            dateCreated: itemData["dateCreated"] as? String ?? ""
+                        )
+                    }
+                }
+            }
+        }
+    
+    func getAllAdsSortedByPrice(descending: Bool) {
+        db.collection("Ads").order(by: "price", descending: descending)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("DEBUG: Error getting documents by price: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let snapshot = snapshot {
+                    self.item = snapshot.documents.map { itemData in
+                        
+                        return Item2(
+                            id: itemData["itemId"] as? String ?? "",
+                            itemName: itemData["itemName"] as? String ?? "",
+                            imageURL: itemData["imageURLs"] as? [String] ?? [],
+                            description: itemData["description"] as? String ?? "",
+                            price: itemData["price"] as? Int ?? 0,
+                            category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt,
+                            dateCreated: itemData["dateCreated"] as? String ?? ""
+                        )
+                    }
+                }
+            }
+    }
+    
+    func getAllAdSortedByAlfabet() {
+        
+    }
+    
     // fetch all items from all users
     func fetchItems() {
         
         let db = Firestore.firestore()
         
-        db.collection("allItems").getDocuments { snapshot, error in
+        db.collection("Ads").getDocuments { snapshot, error in
             
             if let error = error {
                 // handle error
@@ -90,12 +178,13 @@ class ItemViewModel: ObservableObject {
                 self.item = snapshot.documents.map { itemData in
                     
                     return Item2(
-                        id: UUID(),
+                        id: itemData["itemId"] as? String ?? "",
                         itemName: itemData["itemName"] as? String ?? "",
                         imageURL: itemData["imageURLs"] as? [String] ?? [],
                         description: itemData["description"] as? String ?? "",
-                        price: itemData["price"] as? String ?? "",
-                        category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt
+                        price: itemData["price"] as? Int ?? 0,
+                        category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt,
+                        dateCreated: itemData["dateCreated"] as? String ?? ""
                     )
                 }
             }
