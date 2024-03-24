@@ -11,6 +11,8 @@ struct ItemView: View {
     
     @ObservedObject var itemViewModel = ItemViewModel()
     @State private var SelectedCategory: String?
+    @State private var sortByDate = false
+    @State private var orderOptions = ""
     
     var body: some View {
         NavigationView {
@@ -19,6 +21,19 @@ struct ItemView: View {
                     SearchBarView(searchText: $itemViewModel.searchText)
                     
                     CategoryItemView(selectedCategory: $SelectedCategory)
+                    
+                    Menu("Sortera: \(itemViewModel.selectedOrder?.rawValue ?? "")") {
+                        ForEach(ItemViewModel.SortOptions.allCases, id: \.self) { option in
+                            Button(option.rawValue) {
+                                Task {
+                                    itemViewModel.filterSelected(option: option)
+                                }
+                            }
+                        }
+                    }
+                    .padding(5)
+                    .background(Color.gray)
+                    
                     
                     ForEach(itemViewModel.filteredItems) { item in
                         NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: "1", fullname: "1", email: "1", employment: "1", phoneNumber: "")).environmentObject(itemViewModel)) {

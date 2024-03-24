@@ -17,7 +17,6 @@ struct UserFavoriteAdView: View {
         NavigationView {
             ScrollView {
                 VStack {
-                    
                     ForEach(favoriteViewModel.additionalData) { item in
                         NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: "1", fullname: "1", email: "1", employment: "1", phoneNumber: "1")).environmentObject(itemViewModel)) {
                             VStack {
@@ -63,27 +62,25 @@ struct UserFavoriteAdView: View {
                                     }
                                 )
                             }
-                            .background(Color.white)
                             .cornerRadius(15)
                             .shadow(color: .gray, radius: 4, x: 4, y: 4)
                             .padding(7)
+                            .padding(.leading, 10)
+                            .padding(.trailing, 10)
                         }
                     }
-                    
                 }
             }
+            .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
         }
         .onAppear() {
             favoriteViewModel.fetchUsersFavoriteAd()
         }
-        
-        .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
-
     }
 }
 
 struct UserFavoriteAdView_Previews: PreviewProvider {
     static var previews: some View {
-        UserFavoriteAdView()
+        UserFavoriteAdView().environmentObject(FavoriteViewModel())
     }
 }

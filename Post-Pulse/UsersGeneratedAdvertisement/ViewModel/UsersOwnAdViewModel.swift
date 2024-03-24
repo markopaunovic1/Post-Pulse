@@ -38,8 +38,9 @@ extension ItemViewModel {
                     itemName: itemDocument["itemName"] as? String ?? "",
                     imageURL: itemDocument["imageURLs"] as? [String] ?? [],
                     description: itemDocument["description"] as? String ?? "",
-                    price: itemDocument["price"] as? String ?? "",
-                    category: Item2.TypeOfItem(rawValue: itemDocument["category"] as? String ?? "") ?? .ovrigt
+                    price: itemDocument["price"] as? Int ?? 0,
+                    category: Item2.TypeOfItem(rawValue: itemDocument["category"] as? String ?? "") ?? .ovrigt,
+                    dateCreated: itemDocument["dateCreated"] as? String ?? ""
                 )
             }
             

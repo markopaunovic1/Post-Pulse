@@ -15,7 +15,7 @@ struct CreateAdvertisementView: View {
     }
     
     @State private var itemName = ""
-    @State private var price = ""
+    @State private var price = 0
     @State private var description = ""
     @State private var showingAlert = false
     @State private var handleInputAlert: ActiveAlert = .second
@@ -40,7 +40,8 @@ struct CreateAdvertisementView: View {
                             .fontWeight(.bold)
                             .lineLimit(1)
                         Divider()
-                        TextField("Pris:", text: $price)
+                        TextField("Pris:", value: $price, formatter: NumberFormatter())
+                            .keyboardType(.numberPad)
                             .fontWeight(.bold)
                             .keyboardType(.numberPad)
                             .fontWeight(.medium)
@@ -64,10 +65,10 @@ struct CreateAdvertisementView: View {
                     
                     Button {
                         // Handles input validation before uploading to firebase
-                        if !itemName.isEmpty && !price.isEmpty && !description.isEmpty {
+                        if !itemName.isEmpty && price != 0 && !description.isEmpty {
                             Task {
                                 if let userId = authViewModel.currentUser?.id {
-                                    createAdViewModel.uploadItem(itemId: UUID().uuidString, itemName: itemName, price: price, description: description, userId: userId, images: createAdViewModel.selectedImages)
+                                    createAdViewModel.uploadItem(itemId: UUID().uuidString, itemName: itemName, price: price, description: description, userId: userId, images: createAdViewModel.selectedImages, dateCreated: Date())
                                 }
                             }
                             self.handleInputAlert = .first
@@ -112,6 +113,9 @@ struct CreateAdvertisementView: View {
                 }
                 .padding(10)
             }
+        }
+        .onAppear() {
+            
         }
     }
 }

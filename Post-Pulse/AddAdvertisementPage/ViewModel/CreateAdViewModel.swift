@@ -15,7 +15,7 @@ class CreateAdViewModel: ObservableObject {
     
     @Published var selectedImages : [UIImage] = []
     
-    func uploadItem(itemId: String, itemName: String, price: String, description: String, userId: String, images: [UIImage]) {
+    func uploadItem(itemId: String, itemName: String, price: Int, description: String, userId: String, images: [UIImage], dateCreated: Date) {
         let db = Firestore.firestore()
         let dispatchGroup = DispatchGroup()
 
@@ -74,7 +74,7 @@ class CreateAdViewModel: ObservableObject {
                 "price": price,
                 "description": description,
                 "imageURLs": imageURLs,
-                "dateCreated": FieldValue.serverTimestamp()
+                "dateCreated": dateCreated
             ]
 
             // Add document to Ads Firestore

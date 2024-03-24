@@ -89,8 +89,9 @@ class FavoriteViewModel: ObservableObject {
                                     itemName: itemData["itemName"] as? String ?? "",
                                     imageURL: itemData["imageURLs"] as? [String] ?? [],
                                     description: itemData["description"] as? String ?? "",
-                                    price: itemData["price"] as? String ?? "",
-                                    category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt
+                                    price: itemData["price"] as? Int ?? 0,
+                                    category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt,
+                                    dateCreated: itemData["dateCreated"] as? String ?? ""
                                 )
                                 fetchedItems.append(item)
                                 print("Successfully fetched additional item \(item)")
