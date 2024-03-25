@@ -69,6 +69,11 @@ struct CreateAdvertisementView: View {
                             Task {
                                 if let userId = authViewModel.currentUser?.id {
                                     createAdViewModel.uploadItem(itemId: UUID().uuidString, itemName: itemName, price: price, description: description, userId: userId, images: createAdViewModel.selectedImages, dateCreated: Date())
+                                    
+                                    // Reset the values
+                                    itemName = ""
+                                    price = 0
+                                    description = ""
                                 }
                             }
                             self.handleInputAlert = .first
@@ -113,9 +118,6 @@ struct CreateAdvertisementView: View {
                 }
                 .padding(10)
             }
-        }
-        .onAppear() {
-            
         }
     }
 }
