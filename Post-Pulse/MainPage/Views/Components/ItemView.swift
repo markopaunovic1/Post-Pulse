@@ -10,6 +10,7 @@ import SwiftUI
 struct ItemView: View {
     
     @ObservedObject var itemViewModel = ItemViewModel()
+    @ObservedObject var authViewModel = AuthViewModel()
     @State private var SelectedCategory: String?
     @State private var sortByDate = false
     @State private var orderOptions = ""
@@ -32,7 +33,10 @@ struct ItemView: View {
                         }
                     }
                     .padding(5)
-                    .background(Color.gray)
+                    .frame(width: 370, height: 30)
+                    .background(Color.white)
+                    .foregroundColor(Color.black)
+                    .cornerRadius(5)
                     
                     
                     ForEach(itemViewModel.filteredItems) { item in
@@ -47,7 +51,7 @@ struct ItemView: View {
                                                 .resizable()
                                                 .scaledToFill()
                                         } placeholder: {
-                                            EmptyView()
+                                            ProgressView()
                                         }
                                     }
                                 }

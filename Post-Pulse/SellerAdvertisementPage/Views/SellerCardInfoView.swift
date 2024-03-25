@@ -11,8 +11,10 @@ struct SellerCardInfoView: View {
     
     @EnvironmentObject var authViewModel: AuthViewModel
     
+    var user: User2
+    
     var body: some View {
-        if let user = authViewModel.currentUser {
+
             HStack(alignment: .center, spacing: 15, content: {
                 Image(systemName: "person.crop.circle")
                     .resizable()
@@ -50,11 +52,11 @@ struct SellerCardInfoView: View {
             .cornerRadius(10)
             .shadow(color: .gray, radius: 6, x: 3, y: 4)
         }
-    }
+    
 }
 
 struct SellerCardInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        SellerCardInfoView().environmentObject(AuthViewModel())
+        ContentView()
     }
 }

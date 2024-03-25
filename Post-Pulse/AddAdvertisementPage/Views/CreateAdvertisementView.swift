@@ -17,19 +17,21 @@ struct CreateAdvertisementView: View {
     @State private var itemName = ""
     @State private var price = 0
     @State private var description = ""
+    @State private var selectedCategory = ""
     @State private var showingAlert = false
     @State private var handleInputAlert: ActiveAlert = .second
     
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var createAdViewModel: CreateAdViewModel
+    @EnvironmentObject var categoryViewModel : CategoryItemViewModel
     
     var body: some View {
         ZStack {
             Color(red: 194/255, green: 196/255, blue: 207/255)
                 .ignoresSafeArea()
             
-            ScrollView {
-                VStack {
+            ScrollView() {
+                VStack() {
                     CreateGridImageView()
                     
                     Divider()
@@ -63,12 +65,25 @@ struct CreateAdvertisementView: View {
                         .padding(.vertical, 10)
                     Divider()
                     
+                    Picker(selection: $selectedCategory, label: Text("Välj för typ av kategori")) {
+                        ForEach(categoryViewModel.category, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .padding(10)
+                    .frame(width: 370, height: 30)
+                    .background(Color.white)
+                    .foregroundColor(Color.black)
+                    .cornerRadius(5)
+                    .padding(10)
+                    
                     Button {
                         // Handles input validation before uploading to firebase
                         if !itemName.isEmpty && price != 0 && !description.isEmpty {
                             Task {
                                 if let userId = authViewModel.currentUser?.id {
-                                    createAdViewModel.uploadItem(itemId: UUID().uuidString, itemName: itemName, price: price, description: description, userId: userId, images: createAdViewModel.selectedImages, dateCreated: Date())
+                                    createAdViewModel.uploadItem(itemId: UUID().uuidString, itemName: itemName, price: price, description: description, userId: userId, images: createAdViewModel.selectedImages, category: selectedCategory, dateCreated: Date())
                                     
                                     // Reset the values
                                     itemName = ""
@@ -118,6 +133,7 @@ struct CreateAdvertisementView: View {
                 }
                 .padding(10)
             }
+            .padding(10)
         }
     }
 }

@@ -20,8 +20,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct Post_PulseApp: App {
     @StateObject var authViewModel = AuthViewModel()
-    @StateObject var createAdViewModel = CreateAdViewModel()
+    @StateObject var createAdViewModel = CreateAdViewModel(authViewModel: AuthViewModel())
     @StateObject var favoriteItemViewModel = FavoriteViewModel()
+    @StateObject var categoryViewModel = CategoryItemViewModel()
+    @StateObject var sellerAdvertisementViewModel = SellerAdvertisementViewModel()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
@@ -30,6 +32,8 @@ struct Post_PulseApp: App {
                 .environmentObject(authViewModel)
                 .environmentObject(createAdViewModel)
                 .environmentObject(favoriteItemViewModel)
+                .environmentObject(categoryViewModel)
+                .environmentObject(sellerAdvertisementViewModel)
         }
     }
 }
