@@ -13,9 +13,21 @@ import SwiftUI
 
 class CreateAdViewModel: ObservableObject {
     
+    @ObservedObject var authViewModel: AuthViewModel
+        
+        init(authViewModel: AuthViewModel) {
+            self.authViewModel = authViewModel
+        }
+    
     @Published var selectedImages : [UIImage] = []
     
-    func uploadItem(itemId: String, itemName: String, price: Int, description: String, userId: String, images: [UIImage], dateCreated: Date) {
+    @MainActor func uploadItem(itemId: String, itemName: String, price: Int, description: String, userId: String, images: [UIImage], category: String, dateCreated: Date) {
+        
+        guard let currentUser = authViewModel.currentUser else {
+            print("DEBUG: No authenticated user found")
+            return
+        }
+        
         let db = Firestore.firestore()
         let dispatchGroup = DispatchGroup()
 
@@ -74,7 +86,15 @@ class CreateAdViewModel: ObservableObject {
                 "price": price,
                 "description": description,
                 "imageURLs": imageURLs,
-                "dateCreated": dateCreated
+                "category": category,
+                "dateCreated": dateCreated,
+                "user": [
+                    "id": currentUser.id,
+                    "fullname": currentUser.fullname,
+                    "email": currentUser.email,
+                    "employment": currentUser.employment,
+                    "phoneNumber": currentUser.phoneNumber
+                ]
             ]
 
             // Add document to Ads Firestore

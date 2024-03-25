@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CategoryItemView: View {
     
+    // var categoryViewModel : CategoryItemViewModel
+    
     let categories = ["Fordon", "Elektronik", "Hushål", "Fritid & Hobby", "Instrument", "Kläder", "Bostad", "Personligt", "Jobb", "Övrigt"]
     @Binding var selectedCategory: String?
     

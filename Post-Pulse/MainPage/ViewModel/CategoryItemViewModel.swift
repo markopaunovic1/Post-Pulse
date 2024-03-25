@@ -6,9 +6,18 @@
 //
 
 import Foundation
+import FirebaseFirestore
+import Firebase
 
 
 class CategoryItemViewModel: ObservableObject {
     
-    @Published var category = ["Fordon", "Elektronik", "Hushål", "Fritid & Hobby", "Kläder", "Bostad", "Personligt", "Jobb", "Övrigt"]
+    var db = Firestore.firestore()
+    
+    @Published var category = ["Inget", "Fordon", "Elektronik", "Hushål", "Fritid & Hobby", "Kläder", "Bostad", "Personligt", "Jobb", "Övrigt"]
+    
+    
+    func getAllAdsByCategory(category: String) {
+        db.collection("Ads").whereField("category", isEqualTo: category)
+    }
 }

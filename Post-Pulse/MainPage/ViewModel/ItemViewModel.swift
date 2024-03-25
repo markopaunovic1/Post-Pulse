@@ -77,7 +77,6 @@ class ItemViewModel: ObservableObject {
         case priceLow = "Billigast"
         case oldest = "Äldst"
         case newest = "Senaste"
-        case alfabet = "A-Ö"
     }
     
     func filterSelected(option: SortOptions) {
@@ -98,12 +97,11 @@ class ItemViewModel: ObservableObject {
             getAllAdsSortedByDate(descending: true)
             break
             
-        case .alfabet:
-            break
-            
         case .noFilter:
             fetchItems()
         }
+        
+        self.selectedOrder = option
     }
     
     func getAllAdsSortedByDate(descending: Bool) {
@@ -154,10 +152,6 @@ class ItemViewModel: ObservableObject {
                     }
                 }
             }
-    }
-    
-    func getAllAdSortedByAlfabet() {
-        
     }
     
     // fetch all items from all users

@@ -69,7 +69,7 @@ struct SellerAdvertisementView: View {
                     .shadow(color: .gray, radius: 6, x: 3, y: 4)
                 Divider()
                 
-                SellerCardInfoView().environmentObject(AuthViewModel())
+                SellerCardInfoView(user: user).environmentObject(AuthViewModel())
             }
             .padding()
         }
