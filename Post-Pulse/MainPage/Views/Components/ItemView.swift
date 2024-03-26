@@ -27,7 +27,7 @@ struct ItemView: View {
                         ForEach(ItemViewModel.SortOptions.allCases, id: \.self) { option in
                             Button(option.rawValue) {
                                 Task {
-                                    itemViewModel.filterSelected(option: option)
+                                    itemViewModel.sortSelected(option: option)
                                 }
                             }
                         }
@@ -58,29 +58,33 @@ struct ItemView: View {
                                 .tabViewStyle(.page(indexDisplayMode: .never))
                                 .frame(width: 360, height: 200)
                                 .overlay(
-                                    HStack(spacing: 0) {
-                                        Text(item.itemName)
-                                            .fontWeight(.none)
-                                            .scaledToFit()
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding(8)
-                                            .padding(.leading, 4)
-                                            .font(.system(size: 20))
-                                            .foregroundColor(.white)
-                                            .background(Color(white: 0.4, opacity: 0.7))
-                                            .frame(maxHeight: .infinity, alignment: .bottom)
+                                    VStack {
+                                        Image(systemName: "")
                                         
-                                        Text("\(item.price):-")
-                                            .fontWeight(.none)
-                                            .scaledToFit()
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                            .padding(8)
-                                            .padding(.trailing, 4)
-                                            .font(.system(size: 20))
-                                            .foregroundColor(.white)
-                                            .background(Color(white: 0.4, opacity: 0.7))
-                                            .frame(maxHeight: .infinity, alignment: .bottom)
-                                        Divider()
+                                        HStack(spacing: 0) {
+                                            Text(item.itemName)
+                                                .fontWeight(.none)
+                                                .scaledToFit()
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(8)
+                                                .padding(.leading, 4)
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.white)
+                                                .background(Color(white: 0.4, opacity: 0.7))
+                                                .frame(maxHeight: .infinity, alignment: .bottom)
+                                            
+                                            Text("\(item.price):-")
+                                                .fontWeight(.none)
+                                                .scaledToFit()
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                                .padding(8)
+                                                .padding(.trailing, 4)
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.white)
+                                                .background(Color(white: 0.4, opacity: 0.7))
+                                                .frame(maxHeight: .infinity, alignment: .bottom)
+                                            Divider()
+                                        }
                                     }
                                 )
                             }
@@ -102,6 +106,6 @@ struct ItemView: View {
 
 struct ItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ItemView()
     }
 }
