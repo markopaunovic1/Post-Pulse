@@ -76,6 +76,10 @@ class CreateAdViewModel: ObservableObject {
 
         // Notify when all images are uploaded and URLs are retrieved
         dispatchGroup.notify(queue: .main) {
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd MMMM HH:mm"
+            let formattedDate = dateFormatter.string(from: dateCreated)
                     
             
             // Add item data to Firestore with image URLs
@@ -87,7 +91,7 @@ class CreateAdViewModel: ObservableObject {
                 "description": description,
                 "imageURLs": imageURLs,
                 "category": category,
-                "dateCreated": dateCreated,
+                "dateCreated": formattedDate,
                 "user": [
                     "id": currentUser.id,
                     "fullname": currentUser.fullname,
@@ -102,7 +106,7 @@ class CreateAdViewModel: ObservableObject {
                 if let error = error {
                     print("Error adding document: \(error)")
                 } else {
-                    print("Document added successfully")
+                    print("Document added successfully \(itemData)")
                 }
             }
         }

@@ -15,6 +15,4 @@ class SellerAdvertisementViewModel : ObservableObject {
     func fetchUserDataToCard() {
         
     }
-    
-    
 }

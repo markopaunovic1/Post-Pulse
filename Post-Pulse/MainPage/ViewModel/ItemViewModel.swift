@@ -114,6 +114,7 @@ class ItemViewModel: ObservableObject {
                 
                 if let snapshot = snapshot {
                     self.item = snapshot.documents.map { itemData in
+                        let userData = itemData["user"] as? [String: Any] ?? [:]
                         
                         return Item2(
                             id: itemData["itemId"] as? String ?? "",
@@ -121,8 +122,13 @@ class ItemViewModel: ObservableObject {
                             imageURL: itemData["imageURLs"] as? [String] ?? [],
                             description: itemData["description"] as? String ?? "",
                             price: itemData["price"] as? Int ?? 0,
-                            category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt,
-                            dateCreated: itemData["dateCreated"] as? String ?? ""
+                            category: itemData["category"] as? String ?? "",
+                            dateCreated: itemData["dateCreated"] as? String ?? "",
+                            userId: userData["id"] as? String ?? "",
+                            fullname: userData["fullname"] as? String ?? "",
+                            email: userData["email"] as? String ?? "",
+                            employment: userData["employment"] as? String ?? "",
+                            phoneNumber: userData["phoneNumber"] as? String ?? ""
                         )
                     }
                 }
@@ -139,6 +145,7 @@ class ItemViewModel: ObservableObject {
                 
                 if let snapshot = snapshot {
                     self.item = snapshot.documents.map { itemData in
+                        let userData = itemData["user"] as? [String: Any] ?? [:]
                         
                         return Item2(
                             id: itemData["itemId"] as? String ?? "",
@@ -146,8 +153,13 @@ class ItemViewModel: ObservableObject {
                             imageURL: itemData["imageURLs"] as? [String] ?? [],
                             description: itemData["description"] as? String ?? "",
                             price: itemData["price"] as? Int ?? 0,
-                            category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt,
-                            dateCreated: itemData["dateCreated"] as? String ?? ""
+                            category: itemData["category"] as? String ?? "",
+                            dateCreated: itemData["dateCreated"] as? String ?? "",
+                            userId: userData["id"] as? String ?? "",
+                            fullname: userData["fullname"] as? String ?? "",
+                            email: userData["email"] as? String ?? "",
+                            employment: userData["employment"] as? String ?? "",
+                            phoneNumber: userData["phoneNumber"] as? String ?? ""
                         )
                     }
                 }
@@ -156,11 +168,9 @@ class ItemViewModel: ObservableObject {
     
     // fetch all items from all users
     func fetchItems() {
-        
         let db = Firestore.firestore()
         
         db.collection("Ads").getDocuments { snapshot, error in
-            
             if let error = error {
                 // handle error
                 print("Error getting documents: \(error)")
@@ -168,8 +178,8 @@ class ItemViewModel: ObservableObject {
             }
             
             if let snapshot = snapshot {
-                
                 self.item = snapshot.documents.map { itemData in
+                    let userData = itemData["user"] as? [String: Any] ?? [:]
                     
                     return Item2(
                         id: itemData["itemId"] as? String ?? "",
@@ -177,8 +187,13 @@ class ItemViewModel: ObservableObject {
                         imageURL: itemData["imageURLs"] as? [String] ?? [],
                         description: itemData["description"] as? String ?? "",
                         price: itemData["price"] as? Int ?? 0,
-                        category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt,
-                        dateCreated: itemData["dateCreated"] as? String ?? ""
+                        category: itemData["category"] as? String ?? "",
+                        dateCreated: itemData["dateCreated"] as? String ?? "",
+                        userId: userData["id"] as? String ?? "",
+                        fullname: userData["fullname"] as? String ?? "",
+                        email: userData["email"] as? String ?? "",
+                        employment: userData["employment"] as? String ?? "",
+                        phoneNumber: userData["phoneNumber"] as? String ?? ""
                     )
                 }
             }
