@@ -21,8 +21,13 @@ struct Item2: Identifiable, Codable, Hashable {
     let imageURL: [String]
     let description: String
     let price: Int
-    let category: TypeOfItem
+    let category: String
     let dateCreated: String
+    let userId: String
+    let fullname: String
+    let email: String
+    let employment: String
+    let phoneNumber: String
     
     enum TypeOfItem: String, Codable {
         case fordon = "fordon"

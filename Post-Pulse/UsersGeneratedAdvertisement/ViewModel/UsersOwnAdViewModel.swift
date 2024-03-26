@@ -33,14 +33,21 @@ extension ItemViewModel {
             
             // Map item documents to Item2 objects
             let items = itemDocuments.map { itemDocument in
+                let userData = itemDocument["user"] as? [String: Any] ?? [:]
+                
                 return Item2(
-                    id: itemDocument["itemName"] as? String ?? "",
+                    id: itemDocument["itemId"] as? String ?? "",
                     itemName: itemDocument["itemName"] as? String ?? "",
                     imageURL: itemDocument["imageURLs"] as? [String] ?? [],
                     description: itemDocument["description"] as? String ?? "",
                     price: itemDocument["price"] as? Int ?? 0,
-                    category: Item2.TypeOfItem(rawValue: itemDocument["category"] as? String ?? "") ?? .ovrigt,
-                    dateCreated: itemDocument["dateCreated"] as? String ?? ""
+                    category: itemDocument["category"] as? String ?? "",
+                    dateCreated: itemDocument["dateCreated"] as? String ?? "",
+                    userId: userData["id"] as? String ?? "",
+                    fullname: userData["fullname"] as? String ?? "",
+                    email: userData["email"] as? String ?? "",
+                    employment: userData["employment"] as? String ?? "",
+                    phoneNumber: userData["phoneNumber"] as? String ?? ""
                 )
             }
             

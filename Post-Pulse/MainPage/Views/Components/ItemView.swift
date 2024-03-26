@@ -39,8 +39,8 @@ struct ItemView: View {
                     .cornerRadius(5)
                     
                     
-                    ForEach(itemViewModel.filteredItems) { item in
-                        NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: "1", fullname: "1", email: "1", employment: "1", phoneNumber: "")).environmentObject(itemViewModel)) {
+                    ForEach(itemViewModel.filteredItems, id: \.self) { item in
+                        NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: item.id, fullname: item.fullname, email: item.email, employment: item.employment, phoneNumber: item.phoneNumber)).environmentObject(itemViewModel)) {
                             VStack {
                                 TabView {
                                     ForEach(item.imageURL, id: \.self) { imageName in
@@ -80,6 +80,7 @@ struct ItemView: View {
                                             .foregroundColor(.white)
                                             .background(Color(white: 0.4, opacity: 0.7))
                                             .frame(maxHeight: .infinity, alignment: .bottom)
+                                        Divider()
                                     }
                                 )
                             }
@@ -101,6 +102,6 @@ struct ItemView: View {
 
 struct ItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemView()
+        ContentView()
     }
 }

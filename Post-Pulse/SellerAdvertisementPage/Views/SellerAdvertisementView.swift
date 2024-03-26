@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SellerAdvertisementView: View {
     
-    @EnvironmentObject var theItem: ItemViewModel
+    @EnvironmentObject var itemViewModel: ItemViewModel
     @EnvironmentObject var favoriteViewModel: FavoriteViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
     
@@ -47,7 +47,7 @@ struct SellerAdvertisementView: View {
                 
                 Divider()
                 
-                HStack() {
+                HStack {
                     Text(item.itemName)
                         .fontWeight(.bold)
                         .lineLimit(1)
@@ -62,20 +62,31 @@ struct SellerAdvertisementView: View {
                 .shadow(color: .gray, radius: 6, x: 3, y: 4)
                 
                 Divider()
-                Text(item.description)
-                    .padding(10)
-                    .background(Color(red: 229/255.0, green: 229/255.0, blue: 229/255.0))
-                    .cornerRadius(10)
-                    .shadow(color: .gray, radius: 6, x: 3, y: 4)
-                Divider()
+                VStack {
+                    Text("Inlagd: \(item.dateCreated)")
+                        .frame(width: 330, alignment: .trailing)
+                        .padding(.bottom, 1)
+                        .frame(alignment: .trailing)
+                        .foregroundColor(.secondary)
+                    
+                    Divider()
+                    Text(item.description)
+                }
+                .padding(10)
+                .frame(width: 370, alignment: .leading)
+                .background(Color(red: 229/255.0, green: 229/255.0, blue: 229/255.0))
+                .cornerRadius(10)
+                .shadow(color: .gray, radius: 6, x: 3, y: 4)
                 
-                SellerCardInfoView(user: user).environmentObject(AuthViewModel())
+                Divider()
+                    SellerCardInfoView(item: item)
+                
             }
             .padding()
         }
         .overlay(
             ZStack {
-                if theItem.showImageViewer {
+                if itemViewModel.showImageViewer {
                     ImageView(item: item)
                 }
             }
@@ -87,7 +98,9 @@ struct SellerAdvertisementView: View {
 
 struct SellerAdvertisementView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        SellerAdvertisementView(item: Item2(id: "1", itemName: "Tesla model X", imageURL: ["Bilder"], description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since themore recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", price: 20, category: "fordon", dateCreated: "26 mars 16:31", userId: "userid", fullname: "Marko Paunovic", email: "marko@gmail.com", employment: "Företag", phoneNumber: "0766666666"), user: User2(id: "id", fullname: "fullname", email: "email", employment: "employment", phoneNumber: "07666"))
+            .environmentObject(AuthViewModel())
+            .environmentObject(ItemViewModel())
     }
 }
 

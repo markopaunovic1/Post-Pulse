@@ -26,6 +26,5 @@ struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
         MainPageView().environmentObject(ItemViewModel())
         CategoryItemView(selectedCategory: .constant(""))
-        ItemView()
     }
 }

@@ -84,14 +84,21 @@ class FavoriteViewModel: ObservableObject {
                             
                             if let snapshotItem = snapshotData, let itemData = snapshotItem.data() {
                                 
+                                let userData = itemData["user"] as? [String: Any] ?? [:]
+                                
                                 let item = Item2(
                                     id: itemData["itemId"] as? String ?? "",
                                     itemName: itemData["itemName"] as? String ?? "",
                                     imageURL: itemData["imageURLs"] as? [String] ?? [],
                                     description: itemData["description"] as? String ?? "",
                                     price: itemData["price"] as? Int ?? 0,
-                                    category: Item2.TypeOfItem(rawValue: itemData["category"] as? String ?? "") ?? .ovrigt,
-                                    dateCreated: itemData["dateCreated"] as? String ?? ""
+                                    category: itemData["category"] as? String ?? "",
+                                    dateCreated: itemData["dateCreated"] as? String ?? "",
+                                    userId: userData["id"] as? String ?? "",
+                                    fullname: userData["fullname"] as? String ?? "",
+                                    email: userData["email"] as? String ?? "",
+                                    employment: userData["employment"] as? String ?? "",
+                                    phoneNumber: userData["phoneNumber"] as? String ?? ""
                                 )
                                 fetchedItems.append(item)
                                 print("Successfully fetched additional item \(item)")
