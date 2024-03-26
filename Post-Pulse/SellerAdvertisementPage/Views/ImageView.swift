@@ -14,6 +14,7 @@ struct ImageView: View {
     
     let item: Item2
     
+    
     init(item: Item2) {
         self.item = item
     }

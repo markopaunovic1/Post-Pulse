@@ -14,7 +14,7 @@ class CategoryItemViewModel: ObservableObject {
     
     var db = Firestore.firestore()
     
-    @Published var category = ["Inget", "Fordon", "Elektronik", "Hushål", "Fritid & Hobby", "Kläder", "Bostad", "Personligt", "Jobb", "Övrigt"]
+    @Published var category = ["Inget", "Fordon", "Elektronik", "Hushåll", "Fritid & Hobby", "Kläder", "Bostad", "Personligt", "Jobb", "Övrigt"]
     
     
     func getAllAdsByCategory(category: String) {

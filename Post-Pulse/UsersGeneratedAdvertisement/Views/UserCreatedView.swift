@@ -11,6 +11,7 @@ struct UserCreatedView: View {
     
     @ObservedObject var itemViewModel = ItemViewModel()
     @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var userOwnAdViewModel: UserOwnAdViewModel
     
     let currentUser: User2
     
@@ -19,7 +20,7 @@ struct UserCreatedView: View {
             ScrollView {
                 VStack {
                     
-                    ForEach(itemViewModel.item) { item in
+                    ForEach(userOwnAdViewModel.getUserOwnAd) { item in
                         NavigationLink(destination: SellerAdvertisementView(item: item, user: currentUser).environmentObject(itemViewModel)) {
                             VStack {
                                 TabView {
@@ -67,6 +68,8 @@ struct UserCreatedView: View {
                             .cornerRadius(15)
                             .shadow(color: .gray, radius: 4, x: 4, y: 4)
                             .padding(7)
+                            .padding(.leading, 10)
+                            .padding(.trailing, 10)
                         }
                     }
                 }
@@ -74,13 +77,13 @@ struct UserCreatedView: View {
             .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
         }
         .onAppear() {
-            itemViewModel.fetchOnlyUsersOwnAd(userId: currentUser.id)
+            userOwnAdViewModel.fetchUsersOwnAd()
         }
     }
 }
 
 struct UserCreatedViews_Previews: PreviewProvider {
     static var previews: some View {
-        UserCreatedView(currentUser: User2(id: "id", fullname: "fullname", email: "email", employment: "employment", phoneNumber: "phoneNumber"))
+        ContentView()
     }
 }

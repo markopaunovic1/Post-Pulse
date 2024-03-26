@@ -24,6 +24,7 @@ struct Post_PulseApp: App {
     @StateObject var favoriteItemViewModel = FavoriteViewModel()
     @StateObject var categoryViewModel = CategoryItemViewModel()
     @StateObject var sellerAdvertisementViewModel = SellerAdvertisementViewModel()
+    @StateObject var userOwnAdsViewModel = UserOwnAdViewModel()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
@@ -34,6 +35,7 @@ struct Post_PulseApp: App {
                 .environmentObject(favoriteItemViewModel)
                 .environmentObject(categoryViewModel)
                 .environmentObject(sellerAdvertisementViewModel)
+                .environmentObject(userOwnAdsViewModel)
         }
     }
 }

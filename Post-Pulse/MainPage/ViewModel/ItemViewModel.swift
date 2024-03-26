@@ -21,8 +21,9 @@ class ItemViewModel: ObservableObject {
     @Published var imageViewerOffset: CGSize = .zero
     @Published var backGroundOpacity:  Double = 1
     
+    // Properties for filter and sorting ads
     @Published var selectedOrder : SortOptions? = nil
-    
+    @Published var selectedFilter : FilterOptions? = nil
     // For fetching user data
     var db = Firestore.firestore()
     @Published var user : [User2] = []
@@ -71,15 +72,59 @@ class ItemViewModel: ObservableObject {
         }
     }
     
-    enum SortOptions: String, CaseIterable {
-        case noFilter = "Inget"
-        case priceHigh = "Dyrast"
-        case priceLow = "Billigast"
-        case oldest = "Äldst"
-        case newest = "Senaste"
+    // Filtering ads
+    func filterSelected(category: FilterOptions) {
+        switch category {
+            
+        case .vehicle:
+            break
+            
+        case .electronic:
+            break
+            
+        case .houseHold:
+            break
+            
+        case .hobby:
+            break
+            
+        case .clothes:
+            break
+            
+        case .residence:
+            break
+            
+        case .personal:
+            break
+            
+        case .job:
+            break
+            
+        case .overal:
+            break
+            
+        case .nothing:
+            break
+        }
+
+        self.selectedFilter = category
+    }
+
+    enum FilterOptions: String, CaseIterable {
+        case vehicle = "Fordon"
+        case electronic = "Elektronik"
+        case houseHold = "Hushåll"
+        case hobby = "Fritid & Hobby"
+        case clothes = "Kläder"
+        case residence = "Bostad"
+        case personal = "Personligt"
+        case job = "Jobb"
+        case overal = "Övrigt"
+        case nothing = "Inget"
     }
     
-    func filterSelected(option: SortOptions) {
+    // Sorting ads
+    func sortSelected(option: SortOptions) {
         switch option {
         case .priceHigh:
             getAllAdsSortedByPrice(descending: true)
@@ -102,6 +147,14 @@ class ItemViewModel: ObservableObject {
         }
         
         self.selectedOrder = option
+    }
+    
+    enum SortOptions: String, CaseIterable {
+        case noFilter = "Inget"
+        case priceHigh = "Dyrast"
+        case priceLow = "Billigast"
+        case oldest = "Äldst"
+        case newest = "Senaste"
     }
     
     func getAllAdsSortedByDate(descending: Bool) {

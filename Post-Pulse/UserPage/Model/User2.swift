@@ -29,18 +29,6 @@ struct Item2: Identifiable, Codable, Hashable {
     let employment: String
     let phoneNumber: String
     
-    enum TypeOfItem: String, Codable {
-        case fordon = "fordon"
-        case elektronik = "elektronik"
-        case hushal = "hushål"
-        case fritidHobby = "fritidHobby"
-        case instrument = "instrument"
-        case klader = "kläder"
-        case bostad = "bostad"
-        case personligt = "personligt"
-        case jobb = "jobb"
-        case ovrigt = "övrigt"
-    }
 }
 
 extension User2 {
