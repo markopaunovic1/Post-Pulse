@@ -23,11 +23,14 @@ class ItemViewModel: ObservableObject {
     
     // Properties for filter and sorting ads
     @Published var selectedOrder : SortOptions? = nil
-    @Published var selectedFilter : FilterOptions? = nil
     // For fetching user data
     var db = Firestore.firestore()
     @Published var user : [User2] = []
     @Published var item : [Item2] = []
+    
+    @Published var category = ["Inget", "Fordon", "Elektronik", "Hushåll", "Fritid & Hobby", "Kläder", "Bostad", "Personligt", "Jobb", "Övrigt"]
+    
+    @Published var selectedCategory : CategoryOption? = nil
     
     // Handles the image to close
     func onchange(value: CGSize) {
@@ -70,57 +73,6 @@ class ItemViewModel: ObservableObject {
         return item.filter { item in
             item.itemName.lowercased().contains(searchText.lowercased())
         }
-    }
-    
-    // Filtering ads
-    func filterSelected(category: FilterOptions) {
-        switch category {
-            
-        case .vehicle:
-            break
-            
-        case .electronic:
-            break
-            
-        case .houseHold:
-            break
-            
-        case .hobby:
-            break
-            
-        case .clothes:
-            break
-            
-        case .residence:
-            break
-            
-        case .personal:
-            break
-            
-        case .job:
-            break
-            
-        case .overal:
-            break
-            
-        case .nothing:
-            break
-        }
-
-        self.selectedFilter = category
-    }
-
-    enum FilterOptions: String, CaseIterable {
-        case vehicle = "Fordon"
-        case electronic = "Elektronik"
-        case houseHold = "Hushåll"
-        case hobby = "Fritid & Hobby"
-        case clothes = "Kläder"
-        case residence = "Bostad"
-        case personal = "Personligt"
-        case job = "Jobb"
-        case overal = "Övrigt"
-        case nothing = "Inget"
     }
     
     // Sorting ads
@@ -218,6 +170,69 @@ class ItemViewModel: ObservableObject {
                 }
             }
     }
+    
+    
+    func filterSelected(category: CategoryOption) {
+        switch category {
+        case .vehicle, .electronic, .houseHold, .hobby, .clothes, .residence, .personal, .job, .overal, .nothing:
+            getAllAdsByCategory(category: category.rawValue)
+            break
+        }
+
+        self.selectedCategory = category
+    }
+
+    enum CategoryOption: String, CaseIterable {
+        case vehicle = "Fordon"
+        case electronic = "Elektronik"
+        case houseHold = "Hushåll"
+        case hobby = "Fritid & Hobby"
+        case clothes = "Kläder"
+        case residence = "Bostad"
+        case personal = "Personligt"
+        case job = "Jobb"
+        case overal = "Övrigt"
+        case nothing = "Inget"
+    }
+    
+    
+    func getAllAdsByCategory(category: String) {
+        db.collection("Ads").whereField("category", isEqualTo: category)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("DEBUG: Error getting documents by date: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let snapshot = snapshot else {
+                    print("DEBUG: No document found")
+                    return
+                }
+                
+               
+                    self.item = snapshot.documents.compactMap { itemDocument in
+                        let itemData = itemDocument.data()
+                        let userData = itemData["user"] as? [String: Any] ?? [:]
+                        
+                        print("successfully getting data: \(itemData)")
+                        
+                        return Item2(
+                            id: itemData["itemId"] as? String ?? "",
+                            itemName: itemData["itemName"] as? String ?? "",
+                            imageURL: itemData["imageURLs"] as? [String] ?? [],
+                            description: itemData["description"] as? String ?? "",
+                            price: itemData["price"] as? Int ?? 0,
+                            category: itemData["category"] as? String ?? "",
+                            dateCreated: itemData["dateCreated"] as? String ?? "",
+                            userId: userData["id"] as? String ?? "",
+                            fullname: userData["fullname"] as? String ?? "",
+                            email: userData["email"] as? String ?? "",
+                            employment: userData["employment"] as? String ?? "",
+                            phoneNumber: userData["phoneNumber"] as? String ?? ""
+                        )
+                    }
+                }
+            }
     
     // fetch all items from all users
     func fetchItems() {

@@ -21,9 +21,11 @@ struct CreateAdvertisementView: View {
     @State private var showingAlert = false
     @State private var handleInputAlert: ActiveAlert = .second
     
+    @Environment(\.dismiss) var dismiss
+    
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var createAdViewModel: CreateAdViewModel
-    @EnvironmentObject var categoryViewModel : CategoryItemViewModel
+    @EnvironmentObject var itemViewModel: ItemViewModel
     
     var body: some View {
         ZStack {
@@ -66,7 +68,7 @@ struct CreateAdvertisementView: View {
                     Divider()
                     
                     Picker(selection: $selectedCategory, label: Text("Välj för typ av kategori")) {
-                        ForEach(categoryViewModel.category, id: \.self) {
+                        ForEach(itemViewModel.category, id: \.self) {
                             Text($0)
                         }
                     }

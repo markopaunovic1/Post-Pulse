@@ -9,9 +9,10 @@ import SwiftUI
 
 struct CategoryItemView: View {
     
-    // var categoryViewModel : CategoryItemViewModel
+    @ObservedObject var viewModel: ItemViewModel
     
     let categories = ["Fordon", "Elektronik", "Hushål", "Fritid & Hobby", "Instrument", "Kläder", "Bostad", "Personligt", "Jobb", "Övrigt"]
+    
     @Binding var selectedCategory: String?
     
     var body: some View {
@@ -19,7 +20,7 @@ struct CategoryItemView: View {
             HStack {
                 ForEach(categories, id: \.self) { category in
                     Button(action: {
-                        print("Selected category: \(category)")
+                        viewModel.getAllAdsByCategory(category: category)
                     }) {
                         Text(category)
                             .padding(15)
@@ -27,7 +28,6 @@ struct CategoryItemView: View {
                             .foregroundColor(Color.white)
                             .fontWeight(.bold)
                             .cornerRadius(25)
-                            
                     }
                 }
             }
@@ -39,6 +39,6 @@ struct CategoryItemView: View {
 
 struct CategoryItemView_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryItemView(selectedCategory: .constant(""))
+        ContentView()
     }
 }

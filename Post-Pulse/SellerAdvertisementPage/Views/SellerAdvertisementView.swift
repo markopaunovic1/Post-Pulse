@@ -13,6 +13,8 @@ struct SellerAdvertisementView: View {
     @EnvironmentObject var favoriteViewModel: FavoriteViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
     
+    @State private var showingAlert = false
+    
     let item: Item2
     let user: User2
     
@@ -34,7 +36,11 @@ struct SellerAdvertisementView: View {
                                 Task {
                                     favoriteViewModel.addFavoriteItemToUser(userId: user.id, itemId: item.id)
                                 }
+                                showingAlert = true
                             }
+                            .alert(isPresented: $showingAlert) {
+                                        Alert(title: Text("Klart!"), message: Text("Annonsen har lagts till i dina favoriter"), dismissButton: .default(Text("OK")))
+                                    }
                             .backgroundStyle(Color.white)
                             .foregroundColor(Color.black)
                         } else {

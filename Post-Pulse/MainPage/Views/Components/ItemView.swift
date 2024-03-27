@@ -11,9 +11,11 @@ struct ItemView: View {
     
     @ObservedObject var itemViewModel = ItemViewModel()
     @ObservedObject var authViewModel = AuthViewModel()
-    @State private var SelectedCategory: String?
+    // @StateObject var categoryViewModel = CategoryItemViewModel()
+    @State private var selectedCategory: String? = nil
     @State private var sortByDate = false
     @State private var orderOptions = ""
+    
     
     var body: some View {
         NavigationView {
@@ -21,7 +23,12 @@ struct ItemView: View {
                 VStack {
                     SearchBarView(searchText: $itemViewModel.searchText)
                     
-                    CategoryItemView(selectedCategory: $SelectedCategory)
+                    CategoryItemView(viewModel: itemViewModel, selectedCategory: $selectedCategory)
+                        .onChange(of: selectedCategory) { newValue in
+                            if let category = newValue {
+                                itemViewModel.getAllAdsByCategory(category: category)
+                            }
+                        }
                     
                     Menu("Sortera: \(itemViewModel.selectedOrder?.rawValue ?? "")") {
                         ForEach(ItemViewModel.SortOptions.allCases, id: \.self) { option in
