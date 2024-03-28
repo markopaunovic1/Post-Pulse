@@ -23,6 +23,7 @@ class ItemViewModel: ObservableObject {
     
     // Properties for filter and sorting ads
     @Published var selectedOrder : SortOptions? = nil
+    
     // For fetching user data
     var db = Firestore.firestore()
     @Published var user : [User2] = []
@@ -79,106 +80,41 @@ class ItemViewModel: ObservableObject {
     func sortSelected(option: SortOptions) {
         switch option {
         case .priceHigh:
-            getAllAdsSortedByPrice(descending: true)
+            item.sort { $0.price > $1.price }
 
             break
         case .priceLow:
-            getAllAdsSortedByPrice(descending: false)
+            item.sort { $0.price < $1.price }
             break
             
         case .oldest:
-            getAllAdsSortedByDate(descending: false)
+            item.sort { $0.dateCreated < $1.dateCreated }
             break
             
         case .newest:
-            getAllAdsSortedByDate(descending: true)
+            item.sort { $0.dateCreated > $1.dateCreated }
             break
             
         case .noFilter:
             fetchItems()
         }
         
-        self.selectedOrder = option
+        selectedOrder = option
     }
     
     enum SortOptions: String, CaseIterable {
-        case noFilter = "Inget"
+        case noFilter = "Nollställ"
         case priceHigh = "Dyrast"
         case priceLow = "Billigast"
         case oldest = "Äldst"
         case newest = "Senaste"
     }
     
-    func getAllAdsSortedByDate(descending: Bool) {
-        db.collection("Ads").order(by: "dateCreated", descending: descending)
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("DEBUG: Error getting documents by date: \(error.localizedDescription)")
-                    return
-                }
-                
-                if let snapshot = snapshot {
-                    self.item = snapshot.documents.map { itemData in
-                        let userData = itemData["user"] as? [String: Any] ?? [:]
-                        
-                        return Item2(
-                            id: itemData["itemId"] as? String ?? "",
-                            itemName: itemData["itemName"] as? String ?? "",
-                            imageURL: itemData["imageURLs"] as? [String] ?? [],
-                            description: itemData["description"] as? String ?? "",
-                            price: itemData["price"] as? Int ?? 0,
-                            category: itemData["category"] as? String ?? "",
-                            dateCreated: itemData["dateCreated"] as? String ?? "",
-                            userId: userData["id"] as? String ?? "",
-                            fullname: userData["fullname"] as? String ?? "",
-                            email: userData["email"] as? String ?? "",
-                            employment: userData["employment"] as? String ?? "",
-                            phoneNumber: userData["phoneNumber"] as? String ?? ""
-                        )
-                    }
-                }
-            }
-        }
-    
-    func getAllAdsSortedByPrice(descending: Bool) {
-        db.collection("Ads").order(by: "price", descending: descending)
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("DEBUG: Error getting documents by price: \(error.localizedDescription)")
-                    return
-                }
-                
-                if let snapshot = snapshot {
-                    self.item = snapshot.documents.map { itemData in
-                        let userData = itemData["user"] as? [String: Any] ?? [:]
-                        
-                        return Item2(
-                            id: itemData["itemId"] as? String ?? "",
-                            itemName: itemData["itemName"] as? String ?? "",
-                            imageURL: itemData["imageURLs"] as? [String] ?? [],
-                            description: itemData["description"] as? String ?? "",
-                            price: itemData["price"] as? Int ?? 0,
-                            category: itemData["category"] as? String ?? "",
-                            dateCreated: itemData["dateCreated"] as? String ?? "",
-                            userId: userData["id"] as? String ?? "",
-                            fullname: userData["fullname"] as? String ?? "",
-                            email: userData["email"] as? String ?? "",
-                            employment: userData["employment"] as? String ?? "",
-                            phoneNumber: userData["phoneNumber"] as? String ?? ""
-                        )
-                    }
-                }
-            }
-    }
-    
-    
     func filterSelected(category: CategoryOption) {
         switch category {
         case .vehicle, .electronic, .houseHold, .hobby, .clothes, .residence, .personal, .job, .overal, .nothing:
-            getAllAdsByCategory(category: category.rawValue)
             break
         }
-
         self.selectedCategory = category
     }
 
@@ -196,7 +132,7 @@ class ItemViewModel: ObservableObject {
     }
     
     
-    func getAllAdsByCategory(category: String) {
+    func getAllAdsByCategory(forCategory category: String) {
         db.collection("Ads").whereField("category", isEqualTo: category)
             .getDocuments { snapshot, error in
                 if let error = error {

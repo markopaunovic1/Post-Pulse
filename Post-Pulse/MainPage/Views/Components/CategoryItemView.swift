@@ -10,6 +10,7 @@ import SwiftUI
 struct CategoryItemView: View {
     
     @ObservedObject var viewModel: ItemViewModel
+    @State var categoryIsPressed = true
     
     let categories = ["Fordon", "Elektronik", "Hushål", "Fritid & Hobby", "Instrument", "Kläder", "Bostad", "Personligt", "Jobb", "Övrigt"]
     
@@ -20,7 +21,8 @@ struct CategoryItemView: View {
             HStack {
                 ForEach(categories, id: \.self) { category in
                     Button(action: {
-                        viewModel.getAllAdsByCategory(category: category)
+                        selectedCategory = category
+                        viewModel.getAllAdsByCategory(forCategory: category)
                     }) {
                         Text(category)
                             .padding(15)
