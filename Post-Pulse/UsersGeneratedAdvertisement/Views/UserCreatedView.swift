@@ -39,28 +39,43 @@ struct UserCreatedView: View {
                                 .tabViewStyle(.page(indexDisplayMode: .never))
                                 .frame(width: 360, height: 200)
                                 .overlay(
-                                    HStack(spacing: 0) {
-                                        Text(item.itemName)
-                                            .fontWeight(.none)
-                                            .scaledToFit()
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding(8)
-                                            .padding(.leading, 4)
-                                            .font(.system(size: 20))
-                                            .foregroundColor(.white)
-                                            .background(Color(white: 0.4, opacity: 0.7))
-                                            .frame(maxHeight: .infinity, alignment: .bottom)
+                                    VStack(alignment: .trailing) {
+                                        Button {
+                                            userOwnAdViewModel.deleteUserAd(itemId: item.id)
+                                        } label: {
+                                            Image(systemName: "xmark.bin")
+                                                .resizable()
+                                                .frame(width: 30, height: 30)
+                                                .padding(5)
+                                                .background(Color.red)
+                                                .cornerRadius(5)
+                                                .foregroundColor(Color.white)
+                                                .padding(10)
+                                        }
                                         
-                                        Text("\(item.price):-")
-                                            .fontWeight(.none)
-                                            .scaledToFit()
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                            .padding(8)
-                                            .padding(.trailing, 4)
-                                            .font(.system(size: 20))
-                                            .foregroundColor(.white)
-                                            .background(Color(white: 0.4, opacity: 0.7))
-                                            .frame(maxHeight: .infinity, alignment: .bottom)
+                                        HStack(spacing: 0) {
+                                            Text(item.itemName)
+                                                .fontWeight(.none)
+                                                .scaledToFit()
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(8)
+                                                .padding(.leading, 4)
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.white)
+                                                .background(Color(white: 0.4, opacity: 0.7))
+                                                .frame(maxHeight: .infinity, alignment: .bottom)
+                                            
+                                            Text("\(item.price):-")
+                                                .fontWeight(.none)
+                                                .scaledToFit()
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                                .padding(8)
+                                                .padding(.trailing, 4)
+                                                .font(.system(size: 20))
+                                                .foregroundColor(.white)
+                                                .background(Color(white: 0.4, opacity: 0.7))
+                                                .frame(maxHeight: .infinity, alignment: .bottom)
+                                        }
                                     }
                                 )
                             }
@@ -84,6 +99,7 @@ struct UserCreatedView: View {
 
 struct UserCreatedViews_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        UserCreatedView(currentUser: User2(id: "1", fullname: "Marko", email: "marko", employment: "marko", phoneNumber: "marko"))
+            .environmentObject(UserOwnAdViewModel())
     }
 }

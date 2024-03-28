@@ -18,7 +18,6 @@ class UserOwnAdViewModel: ObservableObject {
     
     @Published var getUserOwnAd : [Item2] = []
     
-    
     init() {
         // Caches the users session until user is logged out
         self.userSession = Auth.auth().currentUser
@@ -95,7 +94,19 @@ class UserOwnAdViewModel: ObservableObject {
             }
     }
     
-    func deleteUserAd() {
+    func deleteUserAd(itemId: String) {
+        let db = Firestore.firestore()
         
+        let adRef = db.collection("Ads").document(itemId)
+        
+        adRef.delete { error in
+            if let error = error {
+                print("DEBUG: Error deleting document: \(error.localizedDescription)")
+            } else {
+                print("Successfully deleted document")
+                
+                self.getUserOwnAd.removeAll { $0.id == itemId }
+            }
+        }
     }
 }
