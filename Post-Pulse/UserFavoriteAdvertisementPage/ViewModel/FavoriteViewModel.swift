@@ -113,5 +113,41 @@ class FavoriteViewModel: ObservableObject {
                 }
             }
     }
+    
+    func deleteUserFavoriteAd(itemId: String) {
+        let db = Firestore.firestore()
+        
+        guard let userId = userSession?.uid else {
+            print("User ID is missing")
+            return
+        }
+        
+        db.collection("Favourites")
+            .whereField("itemId", isEqualTo: itemId)
+            .whereField("userId", isEqualTo: userId)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("DEBUG: Error getting documents: \(error.localizedDescription)")
+                    return
+                }
+                guard let snapshot = snapshot else {
+                    print("No document found")
+                    return
+                }
+                for document in snapshot.documents {
+                    let favoriteRef = db.collection("Favourites").document(document.documentID)
+                    favoriteRef.delete { error in
+                        
+                        if let error = error {
+                            print("DEBUG: Error deleteing favorite document: \(error.localizedDescription)")
+                        } else {
+                            print("Successfully deleted document")
+                            
+                            self.additionalData.removeAll() { $0.id == itemId }
+                        }
+                    }
+                }
+            }
+    }
 }
 
