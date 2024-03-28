@@ -56,7 +56,14 @@ struct ItemView: View {
                                 .frame(width: 360, height: 200)
                                 .overlay(
                                     VStack {
-                                        Image(systemName: "")
+                                        HStack {
+                                            Image(systemName: "arrow.left")
+                                            Spacer()
+                                            Image(systemName: "arrow.right")
+                                        }
+                                        .padding(.top, 80)
+                                        .padding(5)
+                                        .foregroundColor(Color(white: 0.1, opacity: 0.7))
                                         
                                         HStack(spacing: 0) {
                                             Text(item.itemName)
