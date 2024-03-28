@@ -1,9 +1,3 @@
-//
-//  CreateAdViewModel.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-03-12.
-//
 
 import Foundation
 import Firebase
@@ -14,10 +8,10 @@ import SwiftUI
 class CreateAdViewModel: ObservableObject {
     
     @ObservedObject var authViewModel: AuthViewModel
-        
-        init(authViewModel: AuthViewModel) {
-            self.authViewModel = authViewModel
-        }
+    
+    init(authViewModel: AuthViewModel) {
+        self.authViewModel = authViewModel
+    }
     
     @Published var selectedImages : [UIImage] = []
     
@@ -30,24 +24,24 @@ class CreateAdViewModel: ObservableObject {
         
         let db = Firestore.firestore()
         let dispatchGroup = DispatchGroup()
-
+        
         var imageURLs = [String]()
-
+        
         // Enter dispatch group for each image upload
         for image in images {
             dispatchGroup.enter()
-
+            
             let imageData = image.jpegData(compressionQuality: 1)
-
+            
             guard let imageData = imageData else {
                 dispatchGroup.leave()
                 continue
             }
-
+            
             let imageName = UUID().uuidString
             let imagePath = "images/\(imageName).jpg"
             let storageRef = Storage.storage().reference(withPath: imagePath)
-
+            
             // Upload image data
             storageRef.putData(imageData, metadata: nil) { metadata, error in
                 if let error = error {
@@ -55,32 +49,32 @@ class CreateAdViewModel: ObservableObject {
                     dispatchGroup.leave()
                     return
                 }
-
+                
                 // Once uploaded, get download URL
                 storageRef.downloadURL { url, error in
                     defer {
                         dispatchGroup.leave()
                     }
-
+                    
                     if let error = error {
                         print("Error getting download URL: \(error)")
                         return
                     }
-
+                    
                     if let downloadURL = url {
                         imageURLs.append(downloadURL.absoluteString)
                     }
                 }
             }
         }
-
+        
         // Notify when all images are uploaded and URLs are retrieved
         dispatchGroup.notify(queue: .main) {
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd MMMM HH:mm"
             let formattedDate = dateFormatter.string(from: dateCreated)
-                    
+            
             
             // Add item data to Firestore with image URLs
             let itemData: [String: Any] = [
@@ -100,7 +94,7 @@ class CreateAdViewModel: ObservableObject {
                     "phoneNumber": currentUser.phoneNumber
                 ]
             ]
-
+            
             // Add document to Ads Firestore
             db.collection("Ads").document(itemId).setData(itemData) { error in
                 if let error = error {

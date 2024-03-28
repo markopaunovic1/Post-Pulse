@@ -1,9 +1,3 @@
-//
-//  CategoryItemView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-02-26.
-//
 
 import SwiftUI
 

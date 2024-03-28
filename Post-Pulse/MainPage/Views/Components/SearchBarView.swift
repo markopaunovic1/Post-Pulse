@@ -1,9 +1,3 @@
-//
-//  SearchFunctionView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-02-22.
-//
 
 import SwiftUI
 import Foundation

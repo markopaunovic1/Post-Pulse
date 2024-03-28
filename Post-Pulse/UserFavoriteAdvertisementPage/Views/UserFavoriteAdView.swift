@@ -1,9 +1,3 @@
-//
-//  UserFavoriteAdView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-02-28.
-//
 
 import SwiftUI
 
@@ -31,7 +25,7 @@ struct UserFavoriteAdView: View {
                 ScrollView {
                     VStack {
                         ForEach(favoriteViewModel.additionalData) { item in
-                            NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: "id", fullname: "fullname", email: "email", employment: "employment", phoneNumber: "076666666")).environmentObject(itemViewModel)) {
+                            NavigationLink(destination: SellerAdvertisementView(item: item, user: User(id: "id", fullname: "fullname", email: "email", employment: "employment", phoneNumber: "076666666")).environmentObject(itemViewModel)) {
                                 VStack {
                                     TabView {
                                         ForEach(item.imageURL, id: \.self) { imageName in
@@ -98,12 +92,12 @@ struct UserFavoriteAdView: View {
                         }
                     }
                 }
+                .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
             }
         }
         .onAppear() {
             favoriteViewModel.fetchUsersFavoriteAd()
         }
-        .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
     }
 }
 

@@ -1,9 +1,3 @@
-//
-//  FavoriteViewModel.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-03-21.
-//
 
 import Foundation
 import FirebaseFirestore
@@ -12,10 +6,8 @@ import Firebase
 class FavoriteViewModel: ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
-    @Published var currentUser: User2?
-    
-    @Published var additionalData : [Item2] = []
-    
+    @Published var currentUser: User?
+    @Published var additionalData : [Item] = []
     
     init() {
         // Caches the users session until user is logged out
@@ -60,7 +52,7 @@ class FavoriteViewModel: ObservableObject {
                     return
                 }
                 if let snapshot = snapshot {
-                    var fetchedItems : [Item2] = []
+                    var fetchedItems : [Item] = []
                     
                     let dispatchGroup = DispatchGroup()
                     
@@ -86,7 +78,7 @@ class FavoriteViewModel: ObservableObject {
                                 
                                 let userData = itemData["user"] as? [String: Any] ?? [:]
                                 
-                                let item = Item2(
+                                let item = Item(
                                     id: itemData["itemId"] as? String ?? "",
                                     itemName: itemData["itemName"] as? String ?? "",
                                     imageURL: itemData["imageURLs"] as? [String] ?? [],
@@ -150,4 +142,3 @@ class FavoriteViewModel: ObservableObject {
             }
     }
 }
-

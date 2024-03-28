@@ -1,9 +1,3 @@
-//
-//  LoginView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-03-08.
-//
 
 import SwiftUI
 import Firebase
@@ -73,7 +67,6 @@ struct LoginView: View {
                             }
                             .font(.system(size: 14))
                         }
-                        
                     }
                 }
             }

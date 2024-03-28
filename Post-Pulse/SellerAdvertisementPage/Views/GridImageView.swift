@@ -1,9 +1,3 @@
-//
-//  GridImageView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-03-05.
-//
 
 import SwiftUI
 
@@ -11,10 +5,10 @@ struct GridImageView: View {
     
     @EnvironmentObject var itemViewModel: ItemViewModel
     
-    let item: Item2
+    let item: Item
     let index: Int
     
-    init(index: Int, item: Item2) {
+    init(index: Int, item: Item) {
         self.item = item
         self.index = index
     }
@@ -24,7 +18,6 @@ struct GridImageView: View {
             withAnimation(.easeInOut) {
                 itemViewModel.selectedImageID = item.imageURL[index]
                 itemViewModel.showImageViewer.toggle()
-                
             }
         } label: {
             ZStack {
@@ -84,15 +77,12 @@ struct GridImageView: View {
     }
 }
 
-
-
 struct GridImageView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
             .environmentObject(ItemViewModel())
     }
 }
-
 
 extension View {
     func getRect() -> CGRect {

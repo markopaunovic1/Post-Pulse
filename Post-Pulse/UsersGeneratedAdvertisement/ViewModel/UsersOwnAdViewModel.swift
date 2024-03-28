@@ -1,28 +1,19 @@
-//
-//  UsersOwnAdViewModel.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-03-21.
-//
 
 import Foundation
 import FirebaseFirestore
 import Firebase
 
-// self.item.removeAll()
-
 class UserOwnAdViewModel: ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
-    @Published var currentUser: User2?
+    @Published var currentUser: User?
     
-    @Published var getUserOwnAd : [Item2] = []
+    @Published var getUserOwnAd : [Item] = []
     
     init() {
         // Caches the users session until user is logged out
         self.userSession = Auth.auth().currentUser
     }
-    
     
     func fetchUsersOwnAd() {
         guard let userId = userSession?.uid else {
@@ -40,7 +31,7 @@ class UserOwnAdViewModel: ObservableObject {
                     return
                 }
                 if let snapshot = snapshot {
-                    var fetchedAd : [Item2] = []
+                    var fetchedAd : [Item] = []
                     
                     let dispatchGroup = DispatchGroup()
                     
@@ -66,7 +57,7 @@ class UserOwnAdViewModel: ObservableObject {
                                 
                                 let userData = itemData["user"] as? [String: Any] ?? [:]
                                 
-                                let item = Item2(
+                                let item = Item(
                                     id: itemData["itemId"] as? String ?? "",
                                     itemName: itemData["itemName"] as? String ?? "",
                                     imageURL: itemData["imageURLs"] as? [String] ?? [],

@@ -1,9 +1,3 @@
-//
-//  AuthViewModel.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-03-11.
-//
 
 import Foundation
 import Firebase
@@ -17,7 +11,7 @@ protocol AuthenticationFormProtocol {
 class AuthViewModel: ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
-    @Published var currentUser: User2?
+    @Published var currentUser: User?
     
     init() {
         // Caches the users session until user is logged out
@@ -42,7 +36,7 @@ class AuthViewModel: ObservableObject {
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
-            let user = User2(id: result.user.uid,fullname: fullname, email: email, employment: employment, phoneNumber: phoneNumber)
+            let user = User(id: result.user.uid,fullname: fullname, email: email, employment: employment, phoneNumber: phoneNumber)
             
             let encodedUser = try Firestore.Encoder().encode(user)
             try await Firestore.firestore().collection("Users").document(user.id).setData(encodedUser)
@@ -67,6 +61,6 @@ class AuthViewModel: ObservableObject {
         
         guard let snapshot = try? await Firestore.firestore().collection("Users").document(uid).getDocument() else { return }
         
-        self.currentUser = try? snapshot.data(as: User2.self)
+        self.currentUser = try? snapshot.data(as: User.self)
     }
 }

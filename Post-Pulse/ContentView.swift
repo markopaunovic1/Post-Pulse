@@ -1,9 +1,3 @@
-//
-//  ContentView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-02-21.
-//
 
 import SwiftUI
 
@@ -22,7 +16,6 @@ struct ContentView: View {
                         }
                     
                     if authViewModel.userSession != nil {
-                        
                         CreateAdvertisementView()
                             .tabItem() {
                                 Label("Lägg till", systemImage: "plus.square")
@@ -51,7 +44,7 @@ struct ContentView: View {
             .onAppear() {
                 
                 UITabBar.appearance().backgroundColor = UIColor(red: 20/255, green: 30/255, blue: 61/255, alpha: 1)
-                                
+                
             }
             .accentColor(Color(red: 252/255, green: 163/255, blue: 17/255))
         }

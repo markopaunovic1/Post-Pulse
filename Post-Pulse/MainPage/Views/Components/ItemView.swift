@@ -1,9 +1,3 @@
-//
-//  SwiftUIView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-02-23.
-//
 
 import SwiftUI
 
@@ -11,7 +5,7 @@ struct ItemView: View {
     
     @ObservedObject var itemViewModel = ItemViewModel()
     @ObservedObject var authViewModel = AuthViewModel()
-
+    
     @State private var isSorting = false
     @State private var selectedCategory: String? = nil
     
@@ -42,9 +36,8 @@ struct ItemView: View {
                         isSorting = false
                     }
                     
-                    
                     ForEach(itemViewModel.filteredItems, id: \.self) { item in
-                        NavigationLink(destination: SellerAdvertisementView(item: item, user: User2(id: item.id, fullname: item.fullname, email: item.email, employment: item.employment, phoneNumber: item.phoneNumber)).environmentObject(itemViewModel)) {
+                        NavigationLink(destination: SellerAdvertisementView(item: item, user: User(id: item.id, fullname: item.fullname, email: item.email, employment: item.employment, phoneNumber: item.phoneNumber)).environmentObject(itemViewModel)) {
                             VStack {
                                 TabView {
                                     ForEach(item.imageURL, id: \.self) { imageName in
@@ -105,7 +98,6 @@ struct ItemView: View {
                 itemViewModel.fetchItems()
             }
         }
-        
     }
 }
 

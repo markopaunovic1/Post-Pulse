@@ -1,9 +1,3 @@
-//
-//  ImageView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-03-07.
-//
 
 import SwiftUI
 
@@ -12,10 +6,10 @@ struct ImageView: View {
     @EnvironmentObject var itemViewModel: ItemViewModel
     @GestureState var draggingOffset: CGSize = .zero
     
-    let item: Item2
+    let item: Item
     
     
-    init(item: Item2) {
+    init(item: Item) {
         self.item = item
     }
     
