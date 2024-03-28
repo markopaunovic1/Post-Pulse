@@ -11,9 +11,9 @@ struct ItemView: View {
     
     @ObservedObject var itemViewModel = ItemViewModel()
     @ObservedObject var authViewModel = AuthViewModel()
-    @State private var SelectedCategory: String?
-    @State private var sortByDate = false
-    @State private var orderOptions = ""
+
+    @State private var isSorting = false
+    @State private var selectedCategory: String? = nil
     
     var body: some View {
         NavigationView {
@@ -21,13 +21,14 @@ struct ItemView: View {
                 VStack {
                     SearchBarView(searchText: $itemViewModel.searchText)
                     
-                    CategoryItemView(selectedCategory: $SelectedCategory)
+                    CategoryItemView(viewModel: itemViewModel, selectedCategory: $selectedCategory)
                     
                     Menu("Sortera: \(itemViewModel.selectedOrder?.rawValue ?? "")") {
                         ForEach(ItemViewModel.SortOptions.allCases, id: \.self) { option in
                             Button(option.rawValue) {
                                 Task {
                                     itemViewModel.sortSelected(option: option)
+                                    isSorting = true
                                 }
                             }
                         }
@@ -37,6 +38,9 @@ struct ItemView: View {
                     .background(Color.white)
                     .foregroundColor(Color.black)
                     .cornerRadius(5)
+                    .onChange(of: itemViewModel.selectedOrder) { _ in
+                        isSorting = false
+                    }
                     
                     
                     ForEach(itemViewModel.filteredItems, id: \.self) { item in
@@ -97,10 +101,11 @@ struct ItemView: View {
                 }
             }
             .background(Color(red: 194/255.0, green: 196/255.0, blue: 207/255.0))
-        }
-        .onAppear() {
+            .onAppear() {
                 itemViewModel.fetchItems()
+            }
         }
+        
     }
 }
 

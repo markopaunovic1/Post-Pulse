@@ -22,7 +22,6 @@ struct Post_PulseApp: App {
     @StateObject var authViewModel = AuthViewModel()
     @StateObject var createAdViewModel = CreateAdViewModel(authViewModel: AuthViewModel())
     @StateObject var favoriteItemViewModel = FavoriteViewModel()
-    @StateObject var categoryViewModel = CategoryItemViewModel()
     @StateObject var sellerAdvertisementViewModel = SellerAdvertisementViewModel()
     @StateObject var userOwnAdsViewModel = UserOwnAdViewModel()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -33,7 +32,6 @@ struct Post_PulseApp: App {
                 .environmentObject(authViewModel)
                 .environmentObject(createAdViewModel)
                 .environmentObject(favoriteItemViewModel)
-                .environmentObject(categoryViewModel)
                 .environmentObject(sellerAdvertisementViewModel)
                 .environmentObject(userOwnAdsViewModel)
         }

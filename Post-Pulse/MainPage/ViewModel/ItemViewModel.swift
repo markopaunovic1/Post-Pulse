@@ -23,11 +23,15 @@ class ItemViewModel: ObservableObject {
     
     // Properties for filter and sorting ads
     @Published var selectedOrder : SortOptions? = nil
-    @Published var selectedFilter : FilterOptions? = nil
+    
     // For fetching user data
     var db = Firestore.firestore()
     @Published var user : [User2] = []
     @Published var item : [Item2] = []
+    
+    @Published var category = ["Inget", "Fordon", "Elektronik", "Hushåll", "Fritid & Hobby", "Kläder", "Bostad", "Personligt", "Jobb", "Övrigt"]
+    
+    @Published var selectedCategory : CategoryOption? = nil
     
     // Handles the image to close
     func onchange(value: CGSize) {
@@ -72,45 +76,49 @@ class ItemViewModel: ObservableObject {
         }
     }
     
-    // Filtering ads
-    func filterSelected(category: FilterOptions) {
+    // Sorting ads
+    func sortSelected(option: SortOptions) {
+        switch option {
+        case .priceHigh:
+            item.sort { $0.price > $1.price }
+
+            break
+        case .priceLow:
+            item.sort { $0.price < $1.price }
+            break
+            
+        case .oldest:
+            item.sort { $0.dateCreated < $1.dateCreated }
+            break
+            
+        case .newest:
+            item.sort { $0.dateCreated > $1.dateCreated }
+            break
+            
+        case .noFilter:
+            fetchItems()
+        }
+        
+        selectedOrder = option
+    }
+    
+    enum SortOptions: String, CaseIterable {
+        case noFilter = "Nollställ"
+        case priceHigh = "Dyrast"
+        case priceLow = "Billigast"
+        case oldest = "Äldst"
+        case newest = "Senaste"
+    }
+    
+    func filterSelected(category: CategoryOption) {
         switch category {
-            
-        case .vehicle:
-            break
-            
-        case .electronic:
-            break
-            
-        case .houseHold:
-            break
-            
-        case .hobby:
-            break
-            
-        case .clothes:
-            break
-            
-        case .residence:
-            break
-            
-        case .personal:
-            break
-            
-        case .job:
-            break
-            
-        case .overal:
-            break
-            
-        case .nothing:
+        case .vehicle, .electronic, .houseHold, .hobby, .clothes, .residence, .personal, .job, .overal, .nothing:
             break
         }
-
-        self.selectedFilter = category
+        self.selectedCategory = category
     }
 
-    enum FilterOptions: String, CaseIterable {
+    enum CategoryOption: String, CaseIterable {
         case vehicle = "Fordon"
         case electronic = "Elektronik"
         case houseHold = "Hushåll"
@@ -123,82 +131,26 @@ class ItemViewModel: ObservableObject {
         case nothing = "Inget"
     }
     
-    // Sorting ads
-    func sortSelected(option: SortOptions) {
-        switch option {
-        case .priceHigh:
-            getAllAdsSortedByPrice(descending: true)
-
-            break
-        case .priceLow:
-            getAllAdsSortedByPrice(descending: false)
-            break
-            
-        case .oldest:
-            getAllAdsSortedByDate(descending: false)
-            break
-            
-        case .newest:
-            getAllAdsSortedByDate(descending: true)
-            break
-            
-        case .noFilter:
-            fetchItems()
-        }
-        
-        self.selectedOrder = option
-    }
     
-    enum SortOptions: String, CaseIterable {
-        case noFilter = "Inget"
-        case priceHigh = "Dyrast"
-        case priceLow = "Billigast"
-        case oldest = "Äldst"
-        case newest = "Senaste"
-    }
-    
-    func getAllAdsSortedByDate(descending: Bool) {
-        db.collection("Ads").order(by: "dateCreated", descending: descending)
+    func getAllAdsByCategory(forCategory category: String) {
+        db.collection("Ads").whereField("category", isEqualTo: category)
             .getDocuments { snapshot, error in
                 if let error = error {
                     print("DEBUG: Error getting documents by date: \(error.localizedDescription)")
                     return
                 }
                 
-                if let snapshot = snapshot {
-                    self.item = snapshot.documents.map { itemData in
-                        let userData = itemData["user"] as? [String: Any] ?? [:]
-                        
-                        return Item2(
-                            id: itemData["itemId"] as? String ?? "",
-                            itemName: itemData["itemName"] as? String ?? "",
-                            imageURL: itemData["imageURLs"] as? [String] ?? [],
-                            description: itemData["description"] as? String ?? "",
-                            price: itemData["price"] as? Int ?? 0,
-                            category: itemData["category"] as? String ?? "",
-                            dateCreated: itemData["dateCreated"] as? String ?? "",
-                            userId: userData["id"] as? String ?? "",
-                            fullname: userData["fullname"] as? String ?? "",
-                            email: userData["email"] as? String ?? "",
-                            employment: userData["employment"] as? String ?? "",
-                            phoneNumber: userData["phoneNumber"] as? String ?? ""
-                        )
-                    }
-                }
-            }
-        }
-    
-    func getAllAdsSortedByPrice(descending: Bool) {
-        db.collection("Ads").order(by: "price", descending: descending)
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("DEBUG: Error getting documents by price: \(error.localizedDescription)")
+                guard let snapshot = snapshot else {
+                    print("DEBUG: No document found")
                     return
                 }
                 
-                if let snapshot = snapshot {
-                    self.item = snapshot.documents.map { itemData in
+               
+                    self.item = snapshot.documents.compactMap { itemDocument in
+                        let itemData = itemDocument.data()
                         let userData = itemData["user"] as? [String: Any] ?? [:]
+                        
+                        print("successfully getting data: \(itemData)")
                         
                         return Item2(
                             id: itemData["itemId"] as? String ?? "",
@@ -217,7 +169,6 @@ class ItemViewModel: ObservableObject {
                     }
                 }
             }
-    }
     
     // fetch all items from all users
     func fetchItems() {
