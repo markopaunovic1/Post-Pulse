@@ -1,9 +1,3 @@
-//
-//  SearchBarViewModel.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-02-22.
-//
 
 import Foundation
 import FirebaseFirestore
@@ -26,8 +20,8 @@ class ItemViewModel: ObservableObject {
     
     // For fetching user data
     var db = Firestore.firestore()
-    @Published var user : [User2] = []
-    @Published var item : [Item2] = []
+    @Published var user : [User] = []
+    @Published var item : [Item] = []
     
     @Published var category = ["Inget", "Fordon", "Elektronik", "Hushåll", "Fritid & Hobby", "Kläder", "Bostad", "Personligt", "Jobb", "Övrigt"]
     
@@ -68,7 +62,7 @@ class ItemViewModel: ObservableObject {
     }
     
     // Filteres through what user is searching for
-    var filteredItems: [Item2] {
+    var filteredItems: [Item] {
         guard !searchText.isEmpty else { return item }
         
         return item.filter { item in
@@ -81,7 +75,7 @@ class ItemViewModel: ObservableObject {
         switch option {
         case .priceHigh:
             item.sort { $0.price > $1.price }
-
+            
             break
         case .priceLow:
             item.sort { $0.price < $1.price }
@@ -117,7 +111,7 @@ class ItemViewModel: ObservableObject {
         }
         self.selectedCategory = category
     }
-
+    
     enum CategoryOption: String, CaseIterable {
         case vehicle = "Fordon"
         case electronic = "Elektronik"
@@ -145,30 +139,30 @@ class ItemViewModel: ObservableObject {
                     return
                 }
                 
-               
-                    self.item = snapshot.documents.compactMap { itemDocument in
-                        let itemData = itemDocument.data()
-                        let userData = itemData["user"] as? [String: Any] ?? [:]
-                        
-                        print("successfully getting data: \(itemData)")
-                        
-                        return Item2(
-                            id: itemData["itemId"] as? String ?? "",
-                            itemName: itemData["itemName"] as? String ?? "",
-                            imageURL: itemData["imageURLs"] as? [String] ?? [],
-                            description: itemData["description"] as? String ?? "",
-                            price: itemData["price"] as? Int ?? 0,
-                            category: itemData["category"] as? String ?? "",
-                            dateCreated: itemData["dateCreated"] as? String ?? "",
-                            userId: userData["id"] as? String ?? "",
-                            fullname: userData["fullname"] as? String ?? "",
-                            email: userData["email"] as? String ?? "",
-                            employment: userData["employment"] as? String ?? "",
-                            phoneNumber: userData["phoneNumber"] as? String ?? ""
-                        )
-                    }
+                
+                self.item = snapshot.documents.compactMap { itemDocument in
+                    let itemData = itemDocument.data()
+                    let userData = itemData["user"] as? [String: Any] ?? [:]
+                    
+                    print("successfully getting data: \(itemData)")
+                    
+                    return Item(
+                        id: itemData["itemId"] as? String ?? "",
+                        itemName: itemData["itemName"] as? String ?? "",
+                        imageURL: itemData["imageURLs"] as? [String] ?? [],
+                        description: itemData["description"] as? String ?? "",
+                        price: itemData["price"] as? Int ?? 0,
+                        category: itemData["category"] as? String ?? "",
+                        dateCreated: itemData["dateCreated"] as? String ?? "",
+                        userId: userData["id"] as? String ?? "",
+                        fullname: userData["fullname"] as? String ?? "",
+                        email: userData["email"] as? String ?? "",
+                        employment: userData["employment"] as? String ?? "",
+                        phoneNumber: userData["phoneNumber"] as? String ?? ""
+                    )
                 }
             }
+    }
     
     // fetch all items from all users
     func fetchItems() {
@@ -185,7 +179,7 @@ class ItemViewModel: ObservableObject {
                 self.item = snapshot.documents.map { itemData in
                     let userData = itemData["user"] as? [String: Any] ?? [:]
                     
-                    return Item2(
+                    return Item(
                         id: itemData["itemId"] as? String ?? "",
                         itemName: itemData["itemName"] as? String ?? "",
                         imageURL: itemData["imageURLs"] as? [String] ?? [],

@@ -1,9 +1,3 @@
-//
-//  SellerAdvertisementView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-02-28.
-//
 
 import SwiftUI
 import PhotosUI
@@ -20,8 +14,6 @@ struct CreateAdvertisementView: View {
     @State private var selectedCategory = ""
     @State private var showingAlert = false
     @State private var handleInputAlert: ActiveAlert = .second
-    
-    @Environment(\.dismiss) var dismiss
     
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var createAdViewModel: CreateAdViewModel
@@ -91,10 +83,10 @@ struct CreateAdvertisementView: View {
                                     itemName = ""
                                     price = 0
                                     description = ""
+                                    createAdViewModel.selectedImages.removeAll()
                                 }
                             }
                             self.handleInputAlert = .first
-                            
                             
                         } else {
                             self.handleInputAlert = .second
@@ -107,7 +99,6 @@ struct CreateAdvertisementView: View {
                             .foregroundColor(.white)
                             .cornerRadius(30)
                             .shadow(color: .gray, radius: 6, x: 3, y: 4)
-                        
                     }
                     // Alert pop up if the ad is created
                     .alert(isPresented: $showingAlert) {

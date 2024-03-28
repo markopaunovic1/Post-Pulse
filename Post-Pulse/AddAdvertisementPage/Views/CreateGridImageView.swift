@@ -1,9 +1,3 @@
-//
-//  CreateGridImageView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-03-13.
-//
 
 import SwiftUI
 import PhotosUI
@@ -43,7 +37,6 @@ struct CreateGridImageView: View {
             }
             
             if pickerItems.isEmpty {
-                
                 PhotosPicker("Lägg till bilder +", selection: $pickerItems, maxSelectionCount: 10, matching: .images)
                     .frame(width: 380, height: 200)
                     .foregroundColor(Color.blue)
@@ -51,14 +44,12 @@ struct CreateGridImageView: View {
                     .cornerRadius(5)
                     .padding(.bottom, 10)
             } else {
-                
                 PhotosPicker("Lägg till bilder +", selection: $pickerItems, maxSelectionCount: 10, matching: .images)
                     .frame(width: 380, height: 30)
                     .foregroundColor(Color.blue)
                     .background(Color(red: 229/255, green: 229/255, blue: 229/255))
                     .cornerRadius(5)
                     .padding(.bottom, 10)
-                    
             }
         }
     }

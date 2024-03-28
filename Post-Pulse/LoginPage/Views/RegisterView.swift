@@ -1,9 +1,3 @@
-//
-//  RegisterView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-03-08.
-//
 
 import SwiftUI
 
@@ -77,7 +71,6 @@ struct RegisterView: View {
                         Task {
                             try await authViewModel.createUser(withEmail: email, password: password, fullname: fullname, employment: employment, phoneNumber: phoneNumber)
                         }
-
                     } label: {
                         Text("SKAPA KONTO")
                             .frame(width: 230, height: 45)

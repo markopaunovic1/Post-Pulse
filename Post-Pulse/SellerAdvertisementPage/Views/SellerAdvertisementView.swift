@@ -1,9 +1,3 @@
-//
-//  SellerAdvertisementView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-02-28.
-//
 
 import SwiftUI
 
@@ -15,8 +9,8 @@ struct SellerAdvertisementView: View {
     
     @State private var showingAlert = false
     
-    let item: Item2
-    let user: User2
+    let item: Item
+    let user: User
     
     let columns = Array(repeating: GridItem(.flexible(), spacing: 0), count: 2)
     
@@ -39,8 +33,8 @@ struct SellerAdvertisementView: View {
                                 showingAlert = true
                             }
                             .alert(isPresented: $showingAlert) {
-                                        Alert(title: Text("Klart!"), message: Text("Annonsen har lagts till i dina favoriter"), dismissButton: .default(Text("OK")))
-                                    }
+                                Alert(title: Text("Klart!"), message: Text("Annonsen har lagts till i dina favoriter"), dismissButton: .default(Text("OK")))
+                            }
                             .backgroundStyle(Color.white)
                             .foregroundColor(Color.black)
                         } else {
@@ -85,7 +79,7 @@ struct SellerAdvertisementView: View {
                 .shadow(color: .gray, radius: 6, x: 3, y: 4)
                 
                 Divider()
-                    SellerCardInfoView(item: item)
+                SellerCardInfoView(item: item)
                 
             }
             .padding()
@@ -101,12 +95,8 @@ struct SellerAdvertisementView: View {
     }
 }
 
-
 struct SellerAdvertisementView_Previews: PreviewProvider {
     static var previews: some View {
-        SellerAdvertisementView(item: Item2(id: "1", itemName: "Tesla model X", imageURL: ["Bilder"], description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since themore recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", price: 20, category: "fordon", dateCreated: "26 mars 16:31", userId: "userid", fullname: "Marko Paunovic", email: "marko@gmail.com", employment: "Företag", phoneNumber: "0766666666"), user: User2(id: "id", fullname: "fullname", email: "email", employment: "employment", phoneNumber: "07666"))
-            .environmentObject(AuthViewModel())
-            .environmentObject(ItemViewModel())
+        ContentView()
     }
 }
-

@@ -1,9 +1,3 @@
-//
-//  pathView.swift
-//  Post-Pulse
-//
-//  Created by Marko Paunovic on 2024-03-11.
-//
 
 import SwiftUI
 
