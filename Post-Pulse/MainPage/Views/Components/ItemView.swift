@@ -63,7 +63,7 @@ struct ItemView: View {
                                         }
                                         .padding(.top, 80)
                                         .padding(5)
-                                        .foregroundColor(Color(white: 0.1, opacity: 0.7))
+                                        .foregroundColor(Color.orange)
                                         
                                         HStack(spacing: 0) {
                                             Text(item.itemName)
